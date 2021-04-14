@@ -1,0 +1,12 @@
+Django>=3.0,<4.0
+python-decouple==3.4
+psycopg2-binary==2.8
+django-cors-headers==3.7.0
+django-heroku==0.3.1
+dj-database-url==0.5.0
+whitenoise==5.2
+gunicorn==20.0
+dj-static==0.0.6
+selenium
+robotframework
+robotframework-seleniumlibrary
