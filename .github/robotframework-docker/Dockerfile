@@ -1,11 +1,11 @@
-FROM robotframework/rfdocker:latest
+FROM zmwangx/docker-selenium-python:python-3.7-chromium-slim-stretch
 
 ENV PYTHONUNBUFFERED 1
 
-RUN apt install python3-pip	
 RUN pip3 install --upgrade pip
-
-RUN apt install libpq-dev -y
+RUN apt update
+RUN apt install build-essential -y
+RUN apt-get install libpq-dev -y
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
