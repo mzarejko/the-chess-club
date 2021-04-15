@@ -13,11 +13,6 @@ jobs:
     - name: Run website
       run: docker-compose -f ${{github.workspace}}/docker-compose.yml up -d
 
-    - name: wait for dockers
-      uses: jakejarvis/wait-action@master
-      with:
-        time: '220s'
-
     - name: check all containers
       run: docker ps
 
