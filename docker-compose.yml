@@ -40,11 +40,12 @@ services:
         command: npm start
         depends_on:
             - backend
-    test:
+    robotframework:
         build: robotframework/rfdocker:latest 
+        container_name: robotframework
         volumes:
-            - ${{github.workspace}}/test/results:/opt/robotframework/reports 
-            - ${{github.workspace}}/test/origin:/opt/robotframework/tests
+            - ./test/results:/opt/robotframework/reports 
+            - ./test/origin:/opt/robotframework/tests
         ports:
           - "5000:5000"
         command: robot /opt/robotframework/tests/test.robot
