@@ -1,4 +1,4 @@
-FROM zmwangx/docker-selenium-python:python-3.7-chromium-slim-stretch
+FROM selenium/standalone-chrome:89.0 
 
 ENV PYTHONUNBUFFERED 1
 
