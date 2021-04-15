@@ -48,7 +48,6 @@ services:
             - ./test/origin:/opt/robotframework/tests
         ports:
           - "5000:5000"
-        command: robot /opt/robotframework/tests/test.robot
         depends_on:
           - backend
           - frontend

@@ -13,4 +13,9 @@ jobs:
     - name: Run website
       run: docker-compose -f ${{github.workspace}}/docker-compose.yml up -d
 
+    - name: Show dockers
+      run: docker ps
+       
+    - name: Run test
+      run: docker run robotframework robot /opt/robotframework/tests/test.robot
 
