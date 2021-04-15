@@ -43,8 +43,8 @@ services:
     test:
         build: robotframework/rfdocker:latest 
         volumes:
-          - ${{github.workspace}}/test/results:/opt/robotframework/reports 
-          - ${{github.workspace}}/test/origin:/opt/robotframework/tests
+            - ${{github.workspace}}/test/results:/opt/robotframework/reports 
+            - ${{github.workspace}}/test/origin:/opt/robotframework/tests
         ports:
           - "5000:5000"
         command: robot /opt/robotframework/tests/test.robot
