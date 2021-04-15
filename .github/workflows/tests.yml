@@ -10,13 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
         
-    - name: Run website
-      run: docker-compose -f ${{github.workspace}}/docker-compose.yml up -d
+    - name: Run website and tests
+      run: docker-compose -f ${{github.workspace}}/docker-compose.yml up -t 10
 
-    - name: Run tests
-      run: |
-        docker run  \
-        -v ${{github.workspace}}/test/results:/opt/robotframework/reports:Z \
-        -v ${{github.workspace}}/test/origin:/opt/robotframework/tests:Z \
-        --user=1001:1001 \
-        robotframework
