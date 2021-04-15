@@ -18,13 +18,20 @@ jobs:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    
+    
+
 
     steps:
     - uses: actions/checkout@v1
-      
-    - name: build test
-      run: |
-        docker build -t django ${{github.workspace}}/.github/robotframework-docker
-    - name: run test
-      run: docker run -v ${{github.workspace}}/test/origin/test.robot:/usr/bin/test.robot django /usr/bin/test.robot
         
+    - name: Run website
+      run: docker-compose -f ${{github.workspace}} up --build &
+
+    - name: Run tests
+      run: |
+        docker run -p 5000:5000 \
+          -v ${{github.workspace}}/test/results:/opt/robotframework/reports:Z \
+          -v ${{github.workspace}}/test/origin:/opt/robotframework/tests:Z \
+          --user=1001:1001 \
+          ppodgorsek/robot-framework:latest
