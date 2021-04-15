@@ -13,16 +13,12 @@
 
 ## General info <a name="info"></a>
 
+All docker are for CI/CD with robotframework, if you work locally do not touch them!
 
 ## Technologies <a name="technologies"></a>
      
 
 ## Build
-
-### Setup with dockers
-
-To lanuch program you must install the [docker-engine](https://docs.docker.com/engine/install/) with [docker-compose](https://docs.docker.com/compose/install/). 
-Dockers in this project are prepared only for linux systems so if you use Windows, you will need [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10) or some other virtual machine.
 
 
 Next you need file .env in backend/base/ with important secrets like passwords or keys.
@@ -41,28 +37,32 @@ This will load all modules in the correct order thenks to the bash script [wait.
 After few seconds site will work at address http://0.0.0.0:8000/ as backend and at http://0.0.0.0:3000/ as frontend.
 
 
-### Setup without dockers
 
-This part assumes that you already have the [postgres database](https://www.postgresql.org/download/) installed on computer and you don't want use dockers. 
-You need file .env like in first install or you can change all settings in django by yourself in /backend/development.
-After this actions to launch program you have to create database with settings which you specified in the .env file or in the code.
+Installation assumes that you already have the [postgreSQL](https://www.postgresql.org/download/) installed on computer. 
+While launching, website have to connect to local database with special parametrs like below:
 
-Examle of setting database:
-
-File .env:
-
-     POSTGRES_HOST = 'localhost' (other name will not work local install),
-     PORT = 5432,
+     POSTGRES_HOST = 'localhost',
      POSTGRES_DB = 'chessbase',
-     POSTGRES_USER = 'user',
-     POSTGRES_PASSWORD = 'passwd',
+     POSTGRES_USER = 'owner',
+     POSTGRES_PASSWORD = 'harnas',
 
-In program [psql](https://www.postgresql.org/docs/9.2/app-psql.html):
+Example of setting database for website:
+
+
+In program [psql](https://www.postgresql.org/docs/9.2/app-psql.html) create database with name chessbase:
 
     user=# CREATE DATABASE chessbase;
 
+Next create user owner:
 
-At the end program need special environment with libraries in [requirements.txt](./backend/requirements.txt) and python 3.8.
+    user=# CREATE USER owner WITH ENCRYPTED PASSWORD 'harnas';
+
+Grant privileges to created user.
+
+    user=# GRANT ALL PRIVILEGES ON DATABASE chessbase TO owner;
+
+After performing this actions website can connect with postgres, before starting program it need special
+environment listed in file [requirements.txt](./backend/requirements.txt) which can be installed by python 3.8:
 
 First create virtual env:
 

@@ -6,8 +6,9 @@ Library  SeleniumLibrary
 Suite Setup  Start Webserver
 Suite Teardown  Stop Webserver
 
+
 *** Variables ***
-${DJANGO URL}  http://0.0.0.0:8000/admin/
+${DJANGO URL}  http://172.16.238.11:8000/admin/
 ${BROWSER}  chrome
 ${DJANGO LOG}  link:Django administration
 
@@ -21,7 +22,6 @@ Check if clinetion work
 *** Keywords ***
 
 Start Webserver
-    Sleep  4s
     Open Browser  ${DJANGO URL}  ${BROWSER}
 
 Stop Webserver
