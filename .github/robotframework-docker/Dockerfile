@@ -31,6 +31,7 @@ RUN apt-get update && \
 # set display port and dbus env to avoid hanging
 ENV DISPLAY=:99
 
+ENV PATH=$PATH:/chromedriver
 
 # install selenium
 RUN pip install selenium
