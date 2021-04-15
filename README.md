@@ -20,24 +20,6 @@ All docker are for CI/CD with robotframework, if you work locally do not touch t
 
 ## Build
 
-
-Next you need file .env in backend/base/ with important secrets like passwords or keys.
-
-     POSTGRES_HOST = 'name of database host (localhost can't by set for dockers)',
-     PORT = 5432,
-     POSTGRES_DB = 'name of database',
-     POSTGRES_USER = 'username',
-     POSTGRES_PASSWORD = 'password',
-     
-After performing all steps above you can launch backend, frontend and database by typing command below:
-
-     $ docker-compose up --build
-
-This will load all modules in the correct order thenks to the bash script [wait.for.sh](./backend/wait-for.sh).
-After few seconds site will work at address http://0.0.0.0:8000/ as backend and at http://0.0.0.0:3000/ as frontend.
-
-
-
 Installation assumes that you already have the [postgreSQL](https://www.postgresql.org/download/) installed on computer. 
 While launching, website have to connect to local database with special parametrs like below:
 
