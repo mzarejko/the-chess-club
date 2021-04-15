@@ -6,8 +6,12 @@ services:
         image: postgres
         container_name: db
         restart: always
-        env_file:
-            - ./backend/base/.env
+        environment:
+          - POSTGRES_HOST=db
+          - PORT=5432
+          - POSTGRES_DB=chessbase
+          - POSTGRES_USER=user
+          - POSTGRES_PASSWORD=harnas 
         ports:
             - "5432:5432"
     backend:

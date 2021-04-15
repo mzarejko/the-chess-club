@@ -1,7 +1,6 @@
 from .base import *
 import os
 from datetime import timedelta
-from decouple import config
 from pathlib import Path
 
 '''
@@ -19,30 +18,28 @@ ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1']
 
 
 
-
-
 if os.environ.get('GITHUB_WORKFLOW'):
     DATABASES = {
         'default': {
            'ENGINE': 'django.db.backends.postgresql',
            'NAME': 'chessbase',
            'USER': 'user',
-           'PASSWORD': 'passwd',
-           'HOST': 'localhost',
+           'PASSWORD': 'harnas',
+           'HOST': 'db',
            'PORT': '5432',
         }
     }
 else:
     DATABASES = {
-        "default": {
-           "ENGINE": "django.db.backends.postgresql",
-           "NAME": config('POSTGRES_DB'),
-           "USER": config('POSTGRES_USER'),
-           "PASSWORD": config('POSTGRES_PASSWORD'),
-           "HOST": config('POSTGRES_HOST'),
-           "PORT": config('PORT')
+        'default': {
+           'ENGINE': 'django.db.backends.postgresql',
+           'NAME': 'chessbase',
+           'USER': 'user',
+           'PASSWORD': 'harnas',
+           'HOST': 'localhost',
+           'PORT': '5432',
         }
-    }   
+    }
     
 
 STATIC_URL = '/static/'
