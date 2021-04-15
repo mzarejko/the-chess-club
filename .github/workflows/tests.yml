@@ -16,7 +16,7 @@ jobs:
     - name: Run tests
       run: |
         docker run --net webweb --ip 172.16.238.13 \
-          -v ${{github.workspace}}/test/results:/opt/robotframework/reports:Z \
-          -v ${{github.workspace--user=1000:1000}}/test/origin:/opt/robotframework/tests:Z \
-          --user=1000:1000 \
-          ppodgorsek/robot-framework:latest
+        -v ${{github.workspace}}/test/results:/opt/robotframework/reports:Z \
+        -v ${{github.workspace--user=1000:1000}}/test/origin:/opt/robotframework/tests:Z \
+        --user=1000:1000 \
+        ppodgorsek/robot-framework:latest
