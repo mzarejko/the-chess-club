@@ -41,7 +41,7 @@ services:
         depends_on:
             - backend
     robotframework:
-        build: robotframework/rfdocker:latest 
+        image: robotframework/rfdocker:latest 
         container_name: robotframework
         volumes:
             - ./test/results:/opt/robotframework/reports 
