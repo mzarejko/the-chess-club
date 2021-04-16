@@ -58,5 +58,18 @@ services:
         networks:
           webweb:
             ipv4_address: "172.16.238.12"
-        
+    robotframework:
+        image: ppodgorsek/robot-framework:latest
+        container_name: robotframework
+        volumes:
+            - ./test/results:/opt/robotframework/reports 
+            - ./test/origin:/opt/robotframework/tests
+        ports:
+          - "5000:5000"
+        depends_on:
+          - backend
+          - frontend
+        networks:
+          webweb:
+            ipv4_address: "172.16.238.13"
 
