@@ -9,13 +9,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-
-    - name : Create network for dockers
-      run: docker network create webweb
         
     - name: Run website
       run: docker-compose -f ${{github.workspace}}/docker-compose.yml up -d
 
+    - name: check networks
+      run: docker network ls
+       
     - name: Run tests
       run: |
         docker run  \
