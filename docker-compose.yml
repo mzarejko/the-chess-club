@@ -2,9 +2,8 @@ version: "3.8"
 
 networks:
   default:
-    webweb:
-      external: 
-        name: webweb
+    external: 
+      name: webweb
 
 services:
     db:
