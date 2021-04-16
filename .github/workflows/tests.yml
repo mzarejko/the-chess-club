@@ -9,6 +9,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+
+    - name : Create network for dockers
+      run: docker network create webweb
         
     - name: Run website
       run: docker-compose -f ${{github.workspace}}/docker-compose.yml up -d
@@ -19,6 +22,6 @@ jobs:
         -v ${{github.workspace}}/test/results:/opt/robotframework/reports:Z \
         -v ${{github.workspace}}/test/origin:/opt/robotframework/tests:Z \
         --user=1001:1001 \
-        --network=${{github.workspace}}/docker-compose.yml \
+        --network=webweb \
         ppodgorsek/robot-framework:latest
         
