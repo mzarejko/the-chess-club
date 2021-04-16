@@ -37,7 +37,7 @@ else:
            'NAME': 'chessbase',
            'USER': 'owner',
            'PASSWORD': 'harnas',
-           'HOST': 'db',
+           'HOST': 'localhost',
            'PORT': '5432',
         }
     }
