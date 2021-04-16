@@ -1,9 +1,12 @@
 version: "3.8"
 
 networks:
-  default:
-    external: 
-      name: webweb
+  webweb:
+    ipam:
+      config:
+      - subnet: 172.16.238.0/24
+        gateway: 172.16.238.1
+
 
 services:
     db:
@@ -18,6 +21,9 @@ services:
           - POSTGRES_PASSWORD=harnas 
         ports:
             - "5432:5432"
+        networks:
+          webweb:
+            ipv4_address: "172.16.238.10"
     backend:
         build: ./backend 
         container_name: backend
@@ -26,13 +32,18 @@ services:
             - ./backend:/app/backend
         command:  bash -c "./wait-for.sh db:5432 -- python3 manage.py makemigrations && 
                            python3 manage.py migrate &&
-                           python3 manage.py runserver 0.0.0.0:8000"
+                           python3 manage.py runserver 172.16.238.11:8000"
         ports:
             - "8000:8000"
         stdin_open: true
         tty: true
+        networks:
+          - test_net
         depends_on:
             - db
+        networks:
+          webweb:
+            ipv4_address: "172.16.238.11"
     frontend:
         build: ./frontend
         container_name: frontend
@@ -44,5 +55,8 @@ services:
         command: npm start
         depends_on:
             - backend
+        networks:
+          webweb:
+            ipv4_address: "172.16.238.12"
         
 

@@ -22,6 +22,6 @@ jobs:
         -v ${{github.workspace}}/test/results:/opt/robotframework/reports:Z \
         -v ${{github.workspace}}/test/origin:/opt/robotframework/tests:Z \
         --user=1001:1001 \
-        --network=webweb \
+        --network=the-chess-club_webweb \
         ppodgorsek/robot-framework:latest
         

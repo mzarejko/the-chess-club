@@ -8,7 +8,7 @@ Suite Teardown  Stop Webserver
 
 
 *** Variables ***
-${DJANGO URL}  http://0.0.0.0:8000/admin/
+${DJANGO URL}  http://172.16.238.11:8000/admin/
 ${BROWSER}  chrome
 ${DJANGO LOG}  link:Django administration
 
@@ -28,4 +28,4 @@ Stop Webserver
     Close Browser
 
 Check if django connection work
-    Wait Until Element Is Visible  ${DJANGO LOG} 10
+    Wait Until Element Is Visible  ${DJANGO LOG}
