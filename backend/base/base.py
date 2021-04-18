@@ -1,5 +1,6 @@
 
 INSTALLED_APPS = [
+    'accounts',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -7,6 +8,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    'django_filters',
+    'rest_framework',
+    'rest_framework_simplejwt.token_blacklist',
+    'rest_auth',
 ]
 
 
@@ -76,6 +81,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+    # filtering
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'],
+    # exceptions
+    'EXCEPTION_HANDLER': ('utils.exc_handler.custome_exception_handler')
 }
 
 CORS_ALLOW_CREDENTIALS = True
