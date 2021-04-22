@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {register} from '../actions/auth';
+import {register} from '../../actions/auth';
 
 class Register extends Component {
     
@@ -40,21 +40,21 @@ class Register extends Component {
                     placeholder="username" 
                 />
                 <input
-                    type="text"
+                    type="mail"
                     name="email"
                     value={this.state.mail}
                     onChange={this.changeValue}
                     placeholder="mail" 
                 />
                 <input
-                    type="text"
+                    type="password"
                     name="password1"
                     value={this.state.password1}
                     onChange={this.changeValue}
                     placeholder="password" 
                 />
                 <input
-                    type="text"
+                    type="password"
                     name="password2"
                     value={this.state.password2}
                     onChange={this.changeValue}

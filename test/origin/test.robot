@@ -24,6 +24,7 @@ Check if clinetion work
 Start Webserver
     Open Browser  ${DJANGO URL}  ${BROWSER}
 
+
 Stop Webserver
     Close Browser
 

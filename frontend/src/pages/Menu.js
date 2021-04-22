@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {urls} from '../utils/urls';
-import {history} from '../utils/history';
 
 class Menu extends Component {
     

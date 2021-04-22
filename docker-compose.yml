@@ -30,7 +30,7 @@ services:
         restart: on-failure
         volumes:
             - ./backend:/app/backend
-        command:  bash -c "./wait-for.sh db:5432 -- python3 manage.py makemigrations && 
+        command:  bash -c "python3 manage.py makemigrations && 
                            python3 manage.py migrate &&
                            python3 manage.py runserver 172.16.238.11:8000"
         ports:

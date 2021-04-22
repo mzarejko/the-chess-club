@@ -1,0 +1,24 @@
+.logo-navbar {
+  display: flex;
+  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+}
+
+
+.Navbar {
+  background: #1f292e;
+  height: 5vh;
+  display: flex;
+  position: sticky;
+  padding: 50px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.logout {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 40px;
+}

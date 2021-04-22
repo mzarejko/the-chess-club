@@ -1,0 +1,123 @@
+
+/* grid-cardlayout*/
+.cards{
+  justify-content: center;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  padding: 10%;
+  grid-gap: 2%;
+}
+
+/* items */
+.item-card {
+    font-size: 28px;
+    width: 100%;
+    height: 600px;
+}
+
+.item-card a {
+  cursor: pointer;
+  color: #333;
+}
+
+.item-card figure {
+  position: relative;
+  overflow: hidden;
+  background: #333;
+  height: 100%;
+}
+
+.item-card figure img {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  min-height: 100%;
+  -webkit-transition: opacity 0.3s;
+  transition: opacity 0.3s;
+}
+
+
+.item-card figcaption {
+  position: absolute;
+  top: 0;
+  z-index: 11;
+  width: 100%;
+  text-align: center;
+}
+
+.icon {
+  color: #fff;
+  font-weight: 300;
+  font-size: 330%;
+  -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.item-card figcaption p {
+  font-family: 'Press Start 2P', cursive;
+  padding: 0 20px;
+  color: #fff;
+  font-weight: 300;
+  -webkit-transition: opacity 0.3s, -webkit-transform 0.3s;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.item-card figcaption icon,
+.item-card figcaption p {
+  -webkit-transform: translateY(50px);
+  transform: translateY(50px);
+}
+
+
+.item-card figcaption,
+.item-card figcaption icon,
+.item-card figcaption p{
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Style for SVG */
+.main-svg {
+  position: absolute;
+  top: -1px; /* fixes rendering issue in FF */
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+}
+
+
+.main-svg path{
+  fill: #29444f;
+}
+
+.item-card:hover path {
+  transition: 0.2s;
+  opacity: 0;
+}
+
+/* Hover effects */
+
+.item-card a:hover figcaption p {
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+}
+
+.item-card a:hover figcaption p {
+  opacity: 0;
+}
+
+
+@media screen and (max-width: 1200px) {
+  .icon {
+    font-size: 200%;
+  }
+
+.item-card {
+    font-size: 18px;
+    height: 400px;
+}
+}
+
+

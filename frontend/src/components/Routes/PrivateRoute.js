@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import {urls} from '../../utils/urls';
 
 class PrivateRoute extends Component {
     
@@ -7,7 +8,7 @@ class PrivateRoute extends Component {
         if (localStorage.getItem('access_token') != null) {
             return <Route {...this.props} />
         }
-        return <Redirect to='/' />
+        return <Redirect to={urls.MENU} />
     }
 }
 

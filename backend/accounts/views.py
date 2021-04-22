@@ -20,6 +20,8 @@ from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnico
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
+from base.development import REDIRECT_PAGE
+from django.shortcuts import redirect
 
 class GetUsers(ListAPIView):
     permission_classes = [IsAuthenticated]
@@ -79,7 +81,6 @@ class VerifyEmail(APIView):
             return Response('invalid token', status=status.HTTP_400_BAD_REQUEST)
 
 class LogoutAPI(APIView):
-    permission_classes = [IsAuthenticated]
 
     def post(self, request):
         try:
@@ -125,7 +126,7 @@ class TokenRegisterCheckAPI(generics.GenericAPIView):
             
             if not PasswordResetTokenGenerator().check_token(user, token):
                 return Response('token has expired or is not valid', status=status.HTTP_401_UNAUTHORIZED)
-            return Response({'success': True, 'message': 'credentials valid', 'uidb64': uidb64, 'token': token}, status=status.HTTP_200_OK)
+            return redirect(REDIRECT_PAGE+'?token='+str(token)+'&uidb64='+str(uidb64))
 
         except DjangoUnicodeDecodeError:
             if not PasswordResetTokenGenerator().check_token(user):

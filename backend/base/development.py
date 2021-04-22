@@ -17,6 +17,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', '172.16.238.11']
 
+# page to redirect from backend
+REDIRECT_PAGE = 'http://0.0.0.0:3000/reset-password/'
 
 # this parametrs are for CI/CD on gitchub actions
 if os.environ.get('GITHUB_WORKFLOW'):

@@ -6,22 +6,44 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    
+    
+    services:
+      selenium:
+        image: selenium/standalone-chrome
+        options: --health-cmd '/opt/bin/check-grid.sh'
+        
 
     steps:
     - uses: actions/checkout@v1
         
-    - name: Run website
-      run: docker-compose -f ${{github.workspace}}/docker-compose.yml up -d
+    - name: build database
+      run: docker-compose -f ${{github.workspace}}/docker-compose.yml up --build -d db 
+      
+    - name: build backend and frontend
+      run: docker-compose -f ${{github.workspace}}/docker-compose.yml up --build -d backend frontend
+      
+    - name: test net
+      run: docker network inspect the-chess-club_webweb
+      
+    - name: check containers
+      run: docker ps -a
+      
+    - name: Check logs
+      run: docker logs backend
+      
+    - name: test net
+      run: docker network inspect the-chess-club_webweb
 
-    - name: check networks
-      run: docker network ls
-       
-    - name: Run tests
+    - name: Test
       run: |
         docker run  \
-        --net the-chess-club_webweb \
+        --network=the-chess-club_webweb \
         -v ${{github.workspace}}/test/results:/opt/robotframework/reports:Z \
         -v ${{github.workspace}}/test/origin:/opt/robotframework/tests:Z \
         --user=1001:1001 \
         ppodgorsek/robot-framework:latest
-
+        
+    - name: Stop containers
+      if: always()
+      run: docker-compose -f ${{github.workspace}}/docker-compose.yml down

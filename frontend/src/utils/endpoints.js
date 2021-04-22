@@ -8,7 +8,6 @@ export const backend_url = {
   LOGOUT : 'http://127.0.0.1:8000/accounts/logout/',
   SEND_RESET_LINK_PASSWORD : 'http://127.0.0.1:8000/accounts/reset-password-email/',
   RESET_PASSWORD : 'http://127.0.0.1:8000/accounts/reset-password-complete/',
-  PAGE_ROUTE : 'http://127.0.0.1:8000/accounts/check-permission/',
 }
 
 
