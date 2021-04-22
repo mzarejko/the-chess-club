@@ -14,7 +14,7 @@ jobs:
       run: docker-compose -f ${{github.workspace}}/docker-compose.yml up --build -d db 
       
     - name: build backend and frontend
-      run: EMAIL_HOST_USER=${{secrets.EMAIL_HOST_USER}} EMAIL_HOST_PASSWORD=${{secrets.EMAIL_HOST_PASSWORD}} docker-compose -f ${{github.workspace}}/docker-compose.yml up --build -d backend frontend
+      run: GITHUB_WORKFLOW=${GITHUB_WORKFLOW} EMAIL_HOST_USER=${{secrets.EMAIL_HOST_USER}} EMAIL_HOST_PASSWORD=${{secrets.EMAIL_HOST_PASSWORD}} docker-compose -f ${{github.workspace}}/docker-compose.yml up --build -d backend frontend
       
     - name: test net
       run: docker network inspect the-chess-club_webweb
