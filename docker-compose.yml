@@ -28,6 +28,9 @@ services:
         build: ./backend 
         container_name: backend
         restart: on-failure
+         environment:
+          - EMAIL_HOST_USER=${{secrets.EMAIL_HOST_USER}}
+          - EMAIL_HOST_PASSWORD=${{secrets.EMAIL_HOST_PASSWORD}}
         volumes:
             - ./backend:/app/backend
         command:  bash -c "python3 manage.py makemigrations && 

@@ -61,8 +61,13 @@ WSGI_APPLICATION = 'base.wsgi.application'
 AUTH_USER_MODEL = 'accounts.User'
 
 # settings need for registration
-EMAIL_HOST_USER=config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
+if os.environ.get('GITHUB_WORKFLOW'):
+    EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
+else:
+    EMAIL_HOST_USER=config('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
+
 EMAIL_USE_TLS=True
 EMAIL_HOST='smtp.gmail.com'
 EMAIL_PORT=587
