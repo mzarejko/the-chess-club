@@ -27,6 +27,20 @@ While launching, website have to connect to local database with special parametr
      POSTGRES_DB = 'chessbase',
      POSTGRES_USER = 'owner',
      POSTGRES_PASSWORD = 'harnas',
+     
+     
+Open 'SQL Shell' in Windows Start
+
+    Server [localhost]: >Press Enter!!
+    
+    < Database [postgres]: >Press Enter!!
+    
+    < Port [5432]: >Press Enter!!
+    
+    < Username [postgres]: >Press Enter!!
+    
+    < Hasło użytkownika postgres: >Type password configured on installation<
+
 
 Example of setting database for website:
 
@@ -53,6 +67,12 @@ First create virtual env:
 Install in this environment all libraries by file in /backend/:
 
     $ pip install -r requirements.txt
+    
+    
+Now program need any mail to sending account activation requests, create in /backend/ file .env with content like below
+     
+     EMAIL_HOST_USER = 'mail for sending account activation request',
+     EMAIL_HOST_PASSWORD = 'mail password'
 
 if everything was done successfully, you can run backend separately.
 
@@ -67,7 +87,14 @@ This command need all parameters accessible by os.environ
 
 To start frontend you have to install [node and npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm), next type command in /frontend/:
 
+    $ npm install -g npm
+    $ npm install react-scripts --save
+    $ npm i history@4.10.1
+    $ npm install axios --save
+    $ npm install react-router-dom
+    $ npm install react-icons --save
     $ npm start
+    
 
 
 ## Status <a name="Status"></a>
