@@ -7,16 +7,32 @@
 
 1. [General Info](#info)
 2. [Technologies](#Technologies)
-3. [Setup](#Setup)
+3. [Bould](#Build)
 4. [Status](#Status)
 
 
 ## General info <a name="info"></a>
 
-All docker are for CI/CD with robotframework, if you work locally do not touch them!
+All docker are for CI/CD with robotframework and github workflow in (workflow)[./github/workflow/tests.yml], if you work locally do not touch them! (unless you know dockers well)
+
+The project itself is mainly for playing in chess with different people as anonymous user or user with account. Project use React, Django and WebSockets to create real-time web game.
+
 
 ## Technologies <a name="technologies"></a>
      
+
+
+
+   backend                            | frontend                        
+------------------------------|-------------------------------------------                                                                     
+  postgres                             |     react                                 
+  redis                              |        react-icons                            
+  celery                               |        axios                   
+  Django 4.0                         |          react-router-dom                         
+  djangorestframework 3.12            |                               
+  django channels                      |                                                                                            
+                                                   
+      
 
 ## Build
 
@@ -73,6 +89,15 @@ Now program need any mail to sending account activation requests, create in /bac
      
      EMAIL_HOST_USER = 'mail for sending account activation request',
      EMAIL_HOST_PASSWORD = 'mail password'
+     
+Next step is installing [redis server](https://redis.io/) on local host to manage WebSockets in [django channels](https://channels.readthedocs.io/en/stable/)
+
+   - After installation in the case of linux just type in the terminal 
+     
+          $ redis-server
+     
+   - For windows, the server probably can be launched similarly, here is some tutorial but i don't know if it still work           https://riptutorial.com/redis/example/29962/installing-and-running-redis-server-on-windows
+ 
 
 if everything was done successfully, you can run backend separately.
 
@@ -84,6 +109,15 @@ If you need launch it with deployment environment you need type:
 
 This command need all parameters accessible by os.environ
 
+
+ Last step is installing [celery](https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html) for performing actions like sending activation mails in background, just type in terminal in dir (/backend/) command like below:
+ 
+     $ celery -A base worker -l INFO
+     
+You can see that this comand need main directory of backend 'base'
+
+     btw. Celery should be installed already by 'pip install -r requirements.txt'
+ 
 
 To start frontend you have to install [node and npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm), next type command in /frontend/:
 
@@ -99,8 +133,15 @@ To start frontend you have to install [node and npm](https://docs.npmjs.com/down
 
 ## Status <a name="Status"></a>
 
-  - [ ]  registration/login
-  - [ ]   token JWT management (sliding session technique)
-  - [ ]   exceptions management
+  - [x]   registration/login
+  - [x]   token JWT management (sliding session technique)
   - [ ]   production on the herok cloud
+  - [x]   automation tests
+  - [x]   base chat
+  - [ ]   advanced chat 
+  - [ ]   chess game
+  - [ ]   user profile
+
+
+
  
