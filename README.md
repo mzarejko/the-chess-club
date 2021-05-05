@@ -110,13 +110,11 @@ If you need launch it with deployment environment you need type:
 This command need all parameters accessible by os.environ
 
 
- Last step is installing [celery](https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html) for performing actions like sending activation mails in background, just type in terminal in dir (/backend/) command like below:
+ Last step is installing [celery](https://docs.celeryproject.org/en/stable/django/first-steps-with-django.html) for performing actions like sending activation mails in background, just type in terminal in dir /backend/ command like below:
  
      $ celery -A base worker -l INFO
      
-You can see that this comand need main directory of backend 'base'
-
-     btw. Celery should be installed already by 'pip install -r requirements.txt'
+btw. Celery should be installed already by 'pip install -r requirements.txt'
  
 
 To start frontend you have to install [node and npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm), next type command in /frontend/:
