@@ -4,24 +4,24 @@ import {urls} from '../../utils/urls';
 
 export const CardItems= [
     {
-        path: urls.HOST_GAME,
+        path: urls.GAME,
         icon: <GiIcons.GiCrossedSwords />,
         image: 'https://media.giphy.com/media/ViHG6N1Zhq1A7tDwbF/giphy.gif',
-        description: 'create game',
+        description: 'play',
         alt: 'create_game'
     },
     {
-        path: urls.MY_GAMES,
+        path: urls.LOGIN,
         icon: <FaIcons.FaTrophy />,
         image: 'https://media.giphy.com/media/l19ipdY2pjK3d8Omtz/giphy.gif',
-        description: 'my games',
+        description: 'login',
         alt: 'my_games'
     },
     {
-        path: urls.MY_GAMES,
+        path: urls.REGISTER,
         icon: <FaIcons.FaUserEdit/>,
         image: 'https://media.giphy.com/media/OMFfLpauGoT4c/giphy.gif',
-        description: 'edit my profile',
+        description: 'register',
         alt: 'edit_profile'
     },
 ]

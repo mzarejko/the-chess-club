@@ -1,23 +1,16 @@
 import React, { Component } from 'react';
-import {urls} from '../utils/urls';
+import Cards from '../components/Cards/Cards';
+import Navbar from '../components/Navbar/Navbar';
 
 class Menu extends Component {
     
     render() {
         return (
-             <div>
-                <h2>MENU</h2>
-                <ul>
-                    <div>
-                        <a href={urls.LOGIN}>login</a>
-                    </div>
-                    <div>
-                        <a href={urls.REGISTER}>register</a>
-                    </div>
-                </ul>
+            <div>
+                <Cards />
             </div>
         )
     }
 }
 
-export default Menu;
+export default Navbar(Menu, null);

@@ -1,6 +1,10 @@
 
 INSTALLED_APPS = [
+    'channels',
+    'django_celery_results',
     'accounts',
+    'games',
+    'chat',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -91,3 +95,4 @@ REST_FRAMEWORK = {
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 
+result_backend = "django-db"

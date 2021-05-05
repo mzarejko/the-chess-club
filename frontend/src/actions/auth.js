@@ -15,7 +15,7 @@ export const logout = () => {
     });
 }
 
-export const login = (mail, password) => {
+export const login = (mail, password, infoDisplayer) => {
         axios.post(backend_url.LOGIN, {
             "email": mail,
             "password": password
@@ -24,21 +24,20 @@ export const login = (mail, password) => {
             localStorage.setItem('refresh_token', response.data.refresh);
             history.push(urls.HOME); 
         }).catch((error) => {
-            console.log(error.request.response)
+            infoDisplayer(error.request.response)
         });
     }
 
-export const register = (username,  email,  password1, password2) => {
+export const register = (username,  email,  password1, password2, infoDisplayer) => {
         axios.post(backend_url.REGISTER, {
             "username": username,
             "email": email,
             "password1": password1,
             "password2": password2
         }).then((response) => {
-            history.push(urls.LOGIN); 
-            console.log(response.request.response)
+            infoDisplayer(response.request.response)
         }).catch((error) => {
-            console.log(error.request.response)
+            infoDisplayer(error.request.response)
         });
     }
 

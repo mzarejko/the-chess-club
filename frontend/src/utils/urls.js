@@ -5,7 +5,10 @@ export const urls = {
   RESET_PASSWORD: '/reset-password/',
   HOME: '/home/',
   MENU: '/',
-  HOST_GAME: '/host/',
-  MY_GAMES: '/my-games/'
+  GAME: '/play/:gameId/',
+  ANONYMOUS_GAME: '/anonymous-play/:gameId/'
 }
 
+export function chooseGameUrl(id){
+  return `/play/${id}/`
+}

@@ -1,0 +1,26 @@
+
+.game-row {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: auto;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 12px;
+  box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.6);
+  margin: 10px;
+  align-items: center;
+}
+
+.game-row:hover {
+  box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.8);
+
+}
+
+.game-row p {
+  padding: 10px;
+  color: #fff;
+}
+
+
+.game-row p {
+  cursor: pointer;
+}

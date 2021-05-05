@@ -25,6 +25,15 @@ services:
         networks:
           webweb:
             ipv4_address: "172.16.238.10"
+    redis:
+        image: redis
+        container_name: redis
+        restart: always
+        ports:
+          - "6379:6379"
+        networks:
+          webweb:
+            ipv4_address: "172.16.238.13"
     backend:
         build: ./backend 
         container_name: backend
@@ -60,3 +69,16 @@ services:
         networks:
           webweb:
             ipv4_address: "172.16.238.12"
+    celery:
+        build: ./backend
+        container_name: celery
+        command: bash -c "celery -A base worker -l INFO"
+        volumes:
+            - ./backend:/app/backend
+        depends_on:
+            - db
+            - redis
+            - backend
+        networks:
+          webweb:
+            ipv4_address: "172.16.238.14"

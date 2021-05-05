@@ -11,7 +11,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 class UsernameSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['pk', 'username']
+        fields = ['username']
 
   
 class RegisterSerializer(serializers.ModelSerializer):
@@ -27,22 +27,6 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
-    def validate_username(self, value):
-        if User.objects.filter(username=value).exists():
-            if not User.objects.get(username=value).is_verified:
-                return True
-            raise ValidationError("Username already exist", 
-                                  code=status.HTTP_409_CONFLICT)
-
-        return value 
-
-    def validate_email(self, value):
-        if User.objects.filter(email=value, is_verified=True).exists():
-            if not User.objects.get(email=value).is_verified:
-                return True
-            raise ValidationError("Email already exist", 
-                                  code=status.HTTP_409_CONFLICT)
-        return value
         
     # extended function for create user
     def create(self, data):
@@ -50,22 +34,27 @@ class RegisterSerializer(serializers.ModelSerializer):
         password2 = data['password2'] 
 
         if password1 != password2:
-            return ValidationError("passwords not match")
+            return ValidationError({'error': "passwords not match"})
 
         # check if user already exist but is not verfied yet
         if User.objects.filter(username=data['username'], email=data['email'], 
                                is_verified=False).exists():
 
-            return User.objects.get(username=data['username'], email=['email'])
+            return User.objects.get(username=data['username'], email=data['email'])
+        elif User.objects.filter(email=data['email'], is_verified=False).exists():
+            raise ValidationError({'error': "email already have account"}, 
+                                  code=status.HTTP_409_CONFLICT)
+        elif not User.objects.filter(email=data['email']).exists():
 
-        user = User(
-            username=data['username'],
-            email=data['email'],
-        )
-        user.set_password(password1)
-        user.save()
-        return user
-
+            user = User(
+                username=data['username'],
+                email=data['email'],
+            )
+            user.set_password(password1)
+            user.save()
+            return user
+        raise ValidationError({'error': "email already have account"}, 
+                                  code=status.HTTP_409_CONFLICT)
 
 class LoginSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(max_length=45, required=True, write_only=True)

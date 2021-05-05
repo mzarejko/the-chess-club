@@ -28,22 +28,23 @@ function resetToken(){
 };
 
 axiosInstance.interceptors.request.use((config) => {
-    console.log('test1')
+    console.log('request')
     config.headers.Authorization =  'Bearer '+localStorage.getItem('access_token');
     return config;
 }, (error) => {
-    console.log('error 1')
+    console.log('request error')
     return error
 });
 
 axiosInstance.interceptors.response.use((response) => {
     return response;
 }, (error) => {
-    console.log('error 2')
+    console.log('response error')
     if (error.response.status === 401){
         resetToken().then(()=>{
             error.config.headers['Authorization'] = 'Bearer' + localStorage.getItem('access_token');
             error.config.baseURL = undefined;
+            console.log('token refresh')
             return axios.request(error.config);
         });
     }

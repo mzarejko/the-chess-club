@@ -12,10 +12,16 @@ jobs:
         
     - name: build database
       run: docker-compose -f ${{github.workspace}}/docker-compose.yml up --build -d db 
-      
+
+    - name: build redis
+      run: docker-compose -f ${{github.workspace}}/docker-compose.yml up --build -d redis 
+
     - name: build backend and frontend
       run: GITHUB_WORKFLOW=${GITHUB_WORKFLOW} EMAIL_HOST_USER=${{secrets.EMAIL_HOST_USER}} EMAIL_HOST_PASSWORD=${{secrets.EMAIL_HOST_PASSWORD}} docker-compose -f ${{github.workspace}}/docker-compose.yml up --build -d backend frontend
       
+    - name: build celery
+      run: GITHUB_WORKFLOW=${GITHUB_WORKFLOW} docker-compose -f ${{github.workspace}}/docker-compose.yml up --build -d celery
+
     - name: test net
       run: docker network inspect the-chess-club_webweb
       

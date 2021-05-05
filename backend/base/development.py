@@ -32,6 +32,8 @@ if os.environ.get('GITHUB_WORKFLOW'):
            'PORT': '5432',
         }
     }
+    EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
 else:
 # this params are for local work, see that here is localhost
     DATABASES = {
@@ -44,7 +46,13 @@ else:
            'PORT': '5432',
         }
     }
-    
+    EMAIL_HOST_USER=config('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
+
+EMAIL_USE_TLS=True
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT=587
+
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
@@ -59,18 +67,6 @@ WSGI_APPLICATION = 'base.wsgi.application'
 
 # important for authentication
 AUTH_USER_MODEL = 'accounts.User'
-
-# settings need for registration
-if os.environ.get('GITHUB_WORKFLOW'):
-    EMAIL_HOST_USER=os.environ.get('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_HOST_PASSWORD')
-else:
-    EMAIL_HOST_USER=config('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD=config('EMAIL_HOST_PASSWORD')
-
-EMAIL_USE_TLS=True
-EMAIL_HOST='smtp.gmail.com'
-EMAIL_PORT=587
 
 
 SIMPLE_JWT = {
@@ -99,4 +95,13 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+}
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
 }

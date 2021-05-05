@@ -1,0 +1,62 @@
+.info-box {
+    position: fixed;
+    right: 0;
+    display: flex;
+    flex-direction: column; 
+    z-index: 999;
+    overflow: hidden;
+    bottom: 10px;
+}
+
+.info {
+    bottom: -1000px;
+    position: relative;
+    margin: 10px;
+    padding: 10px;
+    width: 250px;
+    background-color: #29444f;
+    transition: all 0.5s ease-out;
+    text-overflow: ellipsis;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.info > h8 {
+    font-family: 'Press Start 2P', cursive;
+}
+
+.info > p {
+    padding: 10px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 9px;
+}
+
+#info-id {
+    animation:  up-bottom 6s ease-out;
+}
+
+
+@keyframes up-bottom {
+    from {
+        bottom: -1000px;
+        opacity: 0;
+    }
+
+    10% {
+        bottom: 10px;
+        opacity: 1;
+    }
+
+    70% {
+        bottom: 10px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: -1000px;
+        opacity: 0;
+    }
+}
+
+

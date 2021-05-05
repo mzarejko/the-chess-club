@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import Navbar from '../components/Navbar/Navbar';
-import {logout} from '../actions/auth';
 import GameList from '../components/GameList/GameList';
 
 
-class Home extends Component {
-    
-
+class AnonymousGame extends Component {
 
     render(){    
         return (
@@ -17,4 +13,4 @@ class Home extends Component {
     }
 }
 
-export default Navbar(Home, logout);
+export default AnonymousGame;
