@@ -85,7 +85,7 @@ Install in this environment all libraries by file in /backend/:
     $ pip install -r requirements.txt
     
     
-Now program need any mail to sending account activation requests, create in /backend/ file .env with content like below
+Now program need any mail to sending account activation requests, create in /backend/base/ file .env with content like below
      
      EMAIL_HOST_USER = 'mail for sending account activation request',
      EMAIL_HOST_PASSWORD = 'mail password'
