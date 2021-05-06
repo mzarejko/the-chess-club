@@ -13,7 +13,7 @@
 
 ## General info <a name="info"></a>
 
-All docker are for CI/CD with robotframework and github workflow in [workflow](./github/workflow/tests.yml), if you work locally do not touch them! (unless you know dockers well)
+All docker are for CI/CD with robotframework and github workflow in [workflow](./github/workflows/tests.yml), if you work locally do not touch them! (unless you know dockers well)
 
 The project itself is mainly for playing in chess with different people as anonymous user or user with account. Project use React, Django and WebSockets to create real-time web game.
 
