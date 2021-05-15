@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Socket from "../../utils/websocket";
+import Socket from "../../utils/chatSocket";
 import {getChatUrl} from '../../utils/endpoints';
 import './Chat.css';
 
@@ -24,6 +24,10 @@ class Chat extends Component {
       Socket.fetchMessages(this.props.chatId)
     })
 
+  }
+
+  componentWillUnmount(){
+    Socket.disconnect()
   }
 
   prepareConection(callback){

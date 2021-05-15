@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Game 
+from .models import Game, ChessBoard 
 from accounts.serializers import UsernameSerializer 
 from accounts.models import User
 
@@ -12,7 +12,7 @@ class GameListSerializer(serializers.ModelSerializer):
     
     class Meta:
         model= Game
-        fields = ['pk', 'winner', 'author', 'opponent', 'date', 'chat']
+        fields = ['pk', 'winner', 'author', 'opponent', 'date']
 
 
     def get_author(self, game):
@@ -36,4 +36,9 @@ class GameSerializer(serializers.ModelSerializer):
         model = Game
         fields = ['opponent', 'date', 'winner']
 
+class ChessBoardSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ChessBoard 
+        fields = ['__all__'] 
 

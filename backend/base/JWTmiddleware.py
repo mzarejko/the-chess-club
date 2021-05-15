@@ -9,15 +9,6 @@ from django.conf import settings
 from accounts.models import User
 from django.db import close_old_connections
 
-'''
-This file is need if you want set JWT tokens in WebSockets
-Set this in routing file instead TokenAuthMiddleware and add to each URL token JWT
-
-check this!
-
-https://hashnode.com/post/using-django-drf-jwt-authentication-with-django-channels-cjzy5ffqs0013rus1yb9huxvl
-'''
-
 @database_sync_to_async
 def get_user(id_user):
     try:

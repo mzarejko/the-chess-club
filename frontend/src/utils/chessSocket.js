@@ -1,5 +1,3 @@
-var WS = global.WebSocket || require('ws');
-
 class WebSocketInstance {
 
   constructor(){
@@ -8,7 +6,11 @@ class WebSocketInstance {
   }
   
   connect(path){
-    this.socket = new WS(path)
+    try{
+      this.socket = new WebSocket(path)
+    }catch{
+      return console.log('error connection')
+    }
 
     this.socket.onopen = () => {
       console.log("websocket open")
