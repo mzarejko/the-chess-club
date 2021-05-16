@@ -1,6 +1,6 @@
 import * as GiIcons from "react-icons/gi";
 import * as FaIcons from "react-icons/fa";
-import {urls} from '../../utils/urls';
+import {urls} from '../../utils/paths/urls';
 
 export const CardItems= [
     {

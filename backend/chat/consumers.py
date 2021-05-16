@@ -4,7 +4,11 @@ from channels.generic.websocket import WebsocketConsumer
 from .models import Message, Chat
 from accounts.models import User
 from django.shortcuts import get_object_or_404
+from enum import Enum 
 
+class Commands(str, Enum):
+    FETCH_MESSAGES = 'fetch_messages'
+    NEW_MESSAGE = 'new_message'
 
 # synchronous consumer - less possibility of conflicts
 class ChatConsumer(WebsocketConsumer):
@@ -51,7 +55,13 @@ class ChatConsumer(WebsocketConsumer):
 
     def receive(self, text_data):
         data = json.loads(text_data)
-        self.commands[data['command']](self, data)
+
+        if data['command'] == Commands.FETCH_MESSAGES:
+            self.fetch_messages(data)
+        elif data['command'] == Commands.NEW_MESSAGE:
+            self.new_message(data)
+        else:
+            raise Exception('Socket receive wrong command!')
     
     
     def send_to_frontend(self, message):
@@ -71,7 +81,3 @@ class ChatConsumer(WebsocketConsumer):
         self.send(text_data=json.dumps(message))
 
 
-    commands = {
-        'fetch_messages': fetch_messages,
-        'new_message': new_message 
-    }

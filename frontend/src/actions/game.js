@@ -1,9 +1,8 @@
-import {backend_url} from '../utils/endpoints';
-import {getJoinGameUrl} from '../utils/endpoints';
+import {backend_url, getJoinGameEndpoint} from '../utils/paths/endpoints';
 import axios from 'axios';
 import axiosInstance from '../utils/axiosApi';
 import {history} from '../utils/history';
-import {chooseGameUrl} from '../utils/urls';
+import {gameUrl} from '../utils/paths/urls';
 
 export const createGame = (findGames, infoDisplayer) => {
     axiosInstance.post(backend_url.CREATE_GAME)
@@ -15,10 +14,10 @@ export const createGame = (findGames, infoDisplayer) => {
 }
 
 export const joinGame = (id, infoDisplayer) => {
-    axiosInstance.put(getJoinGameUrl(id))
+    axiosInstance.put(getJoinGameEndpoint(id))
     .then((response) => {
         infoDisplayer(response.request.response)
-        history.push(chooseGameUrl(id))
+        history.push(gameUrl(id))
     }).catch((error) => {
         console.log(error)
     })

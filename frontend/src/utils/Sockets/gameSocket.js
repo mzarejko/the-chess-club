@@ -1,3 +1,4 @@
+import {SocketCommands} from './SocketCommands';
 
 class GameWebSocket {
 
@@ -39,7 +40,7 @@ class GameWebSocket {
     data = JSON.parse(data)
     const command = data.command;
 
-    if (command === "positions"){
+    if (command === SocketCommands.positions){
       this.callbacks[command](data.white_pos, data.black_pos)
     }
 
@@ -83,5 +84,5 @@ class GameWebSocket {
 
 }
 
-const Socket = new GameWebSocket()
-export default Socket;
+const gameSocket = new GameWebSocket()
+export default gameSocket;

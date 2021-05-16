@@ -14,7 +14,7 @@ from .models import WhiteChessBoard, BlackChessBoard
 import random
 from django.shortcuts import get_object_or_404
 from enum import Enum, auto
-from permissions import IsGameNotCompleted 
+from .permissions import IsGameNotCompleted
 
 class color_chess(Enum):
     BLACK = auto()

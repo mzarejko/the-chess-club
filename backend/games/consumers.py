@@ -4,19 +4,24 @@ from channels.generic.websocket import WebsocketConsumer
 from .models import Game, BlackChessBoard, WhiteChessBoard
 from accounts.models import User
 from django.shortcuts import get_object_or_404
-from enum import Enum 
+from enum import Enum, auto
 
-class pawns(Enum):
-    PAWN = 'pawn'
-    KNIGHT = 'knight'
-    QUEEN = 'queen'
-    BISHOP = 'bishop'
-    ROOK = 'rook'
-    KING = 'king'
+class Chess(Enum):
+    PAWN = 1
+    KNIGHT = 2
+    QUEEN = 3
+    BISHOP = 4
+    ROOK = 5
+    KING = 6
 
-class color(Enum):
-    BLACK = 'black'
-    WHITE = 'white'
+class Color(Enum):
+    BLACK = 1
+    WHITE = 2
+
+class Commands(str, Enum):
+    FETCH_POSITONS = 'fetch_positions'
+    MOVE_CHESS_PIECE = 'move_piece'
+
     
 
 class GameConsumer(WebsocketConsumer):
@@ -31,30 +36,30 @@ class GameConsumer(WebsocketConsumer):
         self.send_to_frontend(content)
 
 
-    def move_pawn(self, data):
+    def move_piece(self, data):
         game = get_object_or_404(Game, id=data['gameId'])
         if game.who_has_turn == self.user:
-            if data['color'] == color.WHITE:
+            if data['color'] == Color.WHITE:
                 board = WhiteChessBoard.objects.get(id=game.WhiteChessBoard)
-            elif data['color'] == color.BLACK:
+            elif data['color'] == Color.BLACK:
                 board = BlackChessBoard.objects.get(id=game.BlackChessBoard)
 
-            if data['pawn'] == pawns.PAWN:
+            if data['pawn'] == Chess.PAWN:
                 board.pawns[data['id_pawn']] = data['new_field']
                 board.save()
-            elif data['pawn'] == pawns.KNIGHT:
+            elif data['pawn'] == Chess.KNIGHT:
                 board.knights = data['new_field']
                 board.save()
-            elif data['pawn'] == pawns.QUEEN:
+            elif data['pawn'] == Chess.QUEEN:
                 board.queen = data['new_field']
                 board.save()
-            elif data['pawn'] == pawns.BISHOP:
+            elif data['pawn'] == Chess.BISHOP:
                 board.bishops[data['id_pawn']] = data['new_field']
                 board.save()
-            elif data['pawn'] == pawns.ROOK:
+            elif data['pawn'] == Chess.ROOK:
                 board.rooks[data['id_pawn']] = data['new_field']
                 board.save()
-            elif data['pawn'] == pawns.KING:
+            elif data['pawn'] == Chess.KING:
                 board.king[data['id_pawn']] = data['new_field']
                 board.save()
 
@@ -90,7 +95,13 @@ class GameConsumer(WebsocketConsumer):
 
     def receive(self, text_data):
         data = json.loads(text_data)
-        self.commands[data['command']](self, data)
+
+        if data['command'] == Commands.FETCH_POSITONS:
+            self.fetch_positions(data)
+        elif data['command'] == Commands.MOVE_CHESS_PIECE:
+            self.move_piece(data)
+        else:
+            raise Exception('socket receive wrong command!')
 
     def send_to_frontend(self, message):
         self.send(text_data=json.dumps(message))
@@ -108,7 +119,3 @@ class GameConsumer(WebsocketConsumer):
         message = event['message']
         self.send(text_data=json.dumps(message))
 
-    commands = {
-        'fetch_positions': fetch_positions,
-        'move_pawn': move_pawn
-    }

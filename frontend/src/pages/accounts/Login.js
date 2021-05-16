@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {login} from '../../actions/auth';
-import {urls} from '../../utils/urls'
+import {urls} from '../../utils/paths/urls'
 import InfoDisplayer from '../../components/InfoDisplayer/InfoDisplayer';
 
 class Login extends Component {

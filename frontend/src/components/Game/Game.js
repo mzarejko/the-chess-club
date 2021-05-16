@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Socket from "../../utils/gameSocket";
-import {getGameUrl} from '../../utils/endpoints';
-import './game.css';
+import gameSocket from "../../utils/Sockets/gameSocket";
+import {getGameEndpoint} from '../../utils/paths/endpoints';
+import './Game.css';
 import Board from './Board';
 
 class Game extends Component {
@@ -14,14 +14,26 @@ class Game extends Component {
     }
   }
 
+  componentDidMount(){
+    //connect to socket
+    const path = getGameEndpoint(this.props.gameId, localStorage.getItem('access_token'))
+    console.log(path)
+    gameSocket.connect(path)
+    // get all old messages and set callbacks for websocket
+    this.prepareConection(()=> {
+      gameSocket.addCallbacks(this.updatePos)
+      gameSocket.fetchPositions(this.props.gameId)
+    });
+  }
+
   prepareConection(callback){
     const component = this
     setTimeout(function() {
-      if (Socket.status() === 1) {
+      if (gameSocket.status() === 1) {
         console.log("Connection game is made");
         return callback();
       } else {
-        console.log("wait for connection...");
+        console.log("game wait for connection...");
         component.prepareConection(callback);
       }
     }, 100);
@@ -34,27 +46,18 @@ class Game extends Component {
     });
   }
 
-  componentDidMount(){
-    //connect to socket
-    const path = getGameUrl(this.props.gameId)
-    Socket.connect(path)
-    // get all old messages and set callbacks for websocket
-    this.prepareConection(()=> {
-      Socket.addCallbacks(this.updatePos)
-      Socket.fetchPositions(this.props.gameId)
-    });
-  }
 
 
   componentWillUnmount(){
-    Socket.disconnect()
+    gameSocket.disconnect()
   }
 
 
 
   render() {
     return (
-      <Board />
+      <Board whiteChess={this.state.whiteChess} 
+             blackChess={this.state.blackChess}/>
     )
   }
 }

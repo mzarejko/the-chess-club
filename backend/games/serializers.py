@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Game, ChessBoard 
+from .models import Game
 from accounts.serializers import UsernameSerializer 
 from accounts.models import User
 
@@ -36,9 +36,6 @@ class GameSerializer(serializers.ModelSerializer):
         model = Game
         fields = ['opponent', 'date', 'winner']
 
-class ChessBoardSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = ChessBoard 
-        fields = ['__all__'] 
+
 

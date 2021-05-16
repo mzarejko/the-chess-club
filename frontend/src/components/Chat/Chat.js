@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import Socket from "../../utils/chatSocket";
-import {getChatUrl} from '../../utils/endpoints';
+import chatSocket from "../../utils/Sockets/chatSocket";
+import {getChatEndpoint} from '../../utils/paths/endpoints';
 import './Chat.css';
 
 class Chat extends Component {
@@ -16,28 +16,28 @@ class Chat extends Component {
   
   componentDidMount(){
     //connect to socket
-    const path = getChatUrl(this.props.chatId, localStorage.getItem('access_token'))
-    Socket.connect(path)
+    const path = getChatEndpoint(this.props.chatId, localStorage.getItem('access_token'))
+    chatSocket.connect(path)
     // get all old messages and set callbacks for websocket
     this.prepareConection(()=> {
-      Socket.addCallbacks(this.setMessage, this.addMessage)
-      Socket.fetchMessages(this.props.chatId)
+      chatSocket.addCallbacks(this.setMessage, this.addMessage)
+      chatSocket.fetchMessages(this.props.chatId)
     })
 
   }
 
   componentWillUnmount(){
-    Socket.disconnect()
+    chatSocket.disconnect()
   }
 
   prepareConection(callback){
     const component = this
     setTimeout(function() {
-      if (Socket.status() === 1) {
-        console.log("Connection is made");
+      if (chatSocket.status() === 1) {
+        console.log("Connection chat is made");
         return callback();
       } else {
-        console.log("wait for connection...");
+        console.log("chat wait for connection...");
         component.prepareConection(callback);
       }
     }, 100);
@@ -69,7 +69,7 @@ class Chat extends Component {
       content: this.state.typedMessage,
       chatId: this.props.chatId
     };
-    Socket.sendChatMessage(object)
+    chatSocket.sendChatMessage(object)
     this.setState({typedMessage: ""})
   }
 

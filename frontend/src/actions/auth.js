@@ -1,7 +1,7 @@
-import {backend_url} from '../utils/endpoints';
+import {backend_url} from '../utils/paths/endpoints';
 import axios from 'axios';
 import {history} from '../utils/history';
-import {urls} from '../utils/urls';
+import {urls} from '../utils/paths/urls';
 
 export const logout = () => {
     axios.post(backend_url.LOGOUT,{

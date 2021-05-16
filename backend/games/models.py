@@ -8,7 +8,7 @@ from  . import chessPos
 
 class WhiteChessBoard(models.Model):
 
-    owner = models.ForeignKey(User, related_name='white-chess-owner', null=True, blank=True, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, related_name='white_chess_owner', null=True, blank=True, on_delete=models.CASCADE)
     pawns = ArrayField(ArrayField(models.PositiveIntegerField(), 
                             max_length=2), max_length=8, default=chessPos.get_white_pawns)
     knights = ArrayField(ArrayField(models.PositiveIntegerField(),
@@ -24,7 +24,7 @@ class WhiteChessBoard(models.Model):
         
 class BlackChessBoard(models.Model):
     
-    owner = models.ForeignKey(User, related_name='black-chess-owner', null=True, blank=True, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, related_name='black_chess_owner', null=True, blank=True, on_delete=models.CASCADE)
     pawns = ArrayField(ArrayField(models.PositiveIntegerField(),
                                         max_length=2), max_length=8, default=chessPos.get_black_pawns)
     knights = ArrayField(ArrayField(models.PositiveIntegerField(), 
@@ -45,8 +45,8 @@ class Game(models.Model):
     winner = models.ForeignKey(User, related_name='winner', null=True, blank=True, on_delete=models.SET_NULL)
     chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
     who_has_turn = models.ForeignKey(User, related_name='hasTurn', null=True, blank=True, on_delete=models.CASCADE)
-    whiteChessBoard = models.ForeignKey(WhiteChessBoard, related_name='white-chess', on_delete=models.CASCADE)
-    blackChessBoard = models.ForeignKey(BlackChessBoard, related_name='black-chess', on_delete=models.CASCADE)
+    whiteChessBoard = models.ForeignKey(WhiteChessBoard, null=True, related_name='white_chess', on_delete=models.CASCADE)
+    blackChessBoard = models.ForeignKey(BlackChessBoard, null=True, related_name='black_chess', on_delete=models.CASCADE)
     completed = models.BooleanField(default=False)
     
 
