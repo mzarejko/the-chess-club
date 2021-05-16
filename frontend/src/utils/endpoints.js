@@ -17,7 +17,7 @@ export function getChatUrl(id, token){
   return `ws://127.0.0.1:8000/chat/${id}/?token=${token}`
 }
 
-export function getJoinGameUrl(id){
+export function getGameUrl(id){
   return `${backend_url.LIST_GAMES}${id}/`
 }
 

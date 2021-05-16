@@ -21,7 +21,7 @@ class color(Enum):
 
 class GameConsumer(WebsocketConsumer):
 
-    def get_chess_pos(self, data):
+    def fetch_positions(self, data):
         game = get_object_or_404(Game, id=data['gameId'])
         content = {
             'command': 'positions',
@@ -30,11 +30,6 @@ class GameConsumer(WebsocketConsumer):
         }
         self.send_to_frontend(content)
 
-    def complete_game(self, data):
-        game = get_object_or_404(Game, id=data['gameId'])
-        game.winner = data['winner']
-        game.completed = True
-        game.save()
 
     def move_pawn(self, data):
         game = get_object_or_404(Game, id=data['gameId'])
@@ -114,7 +109,6 @@ class GameConsumer(WebsocketConsumer):
         self.send(text_data=json.dumps(message))
 
     commands = {
-        'get_chess_pos': get_chess_pos,
-        'move_pawn': move_pawn,
-        'complete_game': complete_game
+        'fetch_positions': fetch_positions,
+        'move_pawn': move_pawn
     }

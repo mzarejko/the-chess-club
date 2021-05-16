@@ -1,5 +1,4 @@
-
-class WebSocketInstance {
+class ChatWebSocket {
 
   constructor(){
     this.callbacks = {}
@@ -10,11 +9,11 @@ class WebSocketInstance {
     try{
       this.socket = new WebSocket(path)
     }catch{
-      return console.log('error connection')
+      return console.log('error chat connection')
     }
 
     this.socket.onopen = () => {
-      console.log("websocket open")
+      console.log("chat websocket open")
     };
 
     this.socket.onmessage = (event) => {
@@ -26,7 +25,7 @@ class WebSocketInstance {
     }
 
     this.socket.onclose = (event) => {
-      console.log('websocket closed')
+      console.log('chat websocket closed')
       this.connect();
     }
   }
@@ -86,5 +85,5 @@ class WebSocketInstance {
 
 }
 
-const Socket = new WebSocketInstance()
+const Socket = new ChatWebSocket()
 export default Socket;
