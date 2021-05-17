@@ -1,4 +1,4 @@
-import {backend_url, getJoinGameEndpoint} from '../utils/paths/endpoints';
+import {backend_url, getJoinGameEndpoint} from '../utils/paths/API';
 import axios from 'axios';
 import axiosInstance from '../utils/axiosApi';
 import {history} from '../utils/history';

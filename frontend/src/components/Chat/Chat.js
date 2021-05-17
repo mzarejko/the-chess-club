@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import chatSocket from "../../utils/Sockets/chatSocket";
-import {getChatEndpoint} from '../../utils/paths/endpoints';
+import {getChatEndpoint} from '../../utils/paths/API';
 import './Chat.css';
 
 class Chat extends Component {

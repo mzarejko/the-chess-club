@@ -5,18 +5,7 @@ from .models import Game, BlackChessBoard, WhiteChessBoard
 from accounts.models import User
 from django.shortcuts import get_object_or_404
 from enum import Enum, auto
-
-class Chess(Enum):
-    PAWN = 1
-    KNIGHT = 2
-    QUEEN = 3
-    BISHOP = 4
-    ROOK = 5
-    KING = 6
-
-class Color(Enum):
-    BLACK = 1
-    WHITE = 2
+from .settings import Color, Chess
 
 class Commands(str, Enum):
     FETCH_POSITONS = 'fetch_positions'

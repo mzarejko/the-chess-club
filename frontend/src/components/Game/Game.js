@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import gameSocket from "../../utils/Sockets/gameSocket";
-import {getGameEndpoint} from '../../utils/paths/endpoints';
+import {getGameEndpoint} from '../../utils/paths/API';
 import './Game.css';
 import Board from './Board';
+import {pawns} from './board_settings';
+import {color_chess} from './board_settings';
 
 class Game extends Component {
 
   constructor(props){
     super(props)
+    const height = 8
+    const width = 8
+
     this.state={
-      whiteChess: {},
-      blackChess: {}
+      whiteChess: null,
+      blackChess: null,
+      positions: Array(height).fill().map(() => Array(width))
     }
   }
 
@@ -38,14 +44,10 @@ class Game extends Component {
       }
     }, 100);
   }
-
+  
   updatePos = (white, black) => {
-    this.setState({
-      whiteChess: white,
-      blackChess: black
-    });
+    console.log(white)
   }
-
 
 
   componentWillUnmount(){

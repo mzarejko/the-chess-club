@@ -72,20 +72,20 @@ class Game(models.Model):
         
     @staticmethod
     def get_white_pos(game):
-        json_pos = [{'pawns': game.whiteChessBoard.pawns,
+        json_pos = {'pawns': game.whiteChessBoard.pawns,
                      'knights': game.whiteChessBoard.knights,
                      'queen': game.whiteChessBoard.queen,
                      'bishops': game.whiteChessBoard.bishops,
                      'rooks': game.whiteChessBoard.rooks,
-                     'king': game.whiteChessBoard.king}]
+                     'king': game.whiteChessBoard.king}
         return json_pos
 
     @staticmethod
     def get_black_pos(game):
-        json_pos = [{'pawns': game.blackChessBoard.pawns,
+        json_pos = {'pawns': game.blackChessBoard.pawns,
                      'knights': game.blackChessBoard.knights,
                      'queen': game.blackChessBoard.queen,
                      'bishops': game.blackChessBoard.bishops,
                      'rooks': game.blackChessBoard.rooks,
-                     'king': game.blackChessBoard.king}]
+                     'king': game.blackChessBoard.king}
         return json_pos

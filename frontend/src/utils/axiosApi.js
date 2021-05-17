@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {backend_url} from './paths/endpoints';
+import {backend_url} from './paths/API';
 import {logout} from '../actions/auth';
 
 /*

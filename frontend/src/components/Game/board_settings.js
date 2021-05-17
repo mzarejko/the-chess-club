@@ -1,6 +1,6 @@
 export const color_chess = {
-    WHITE: 'white',
-    BLACK: 'black'
+    WHITE: 1,
+    BLACK: 2
 }
 
 export const pawns = {

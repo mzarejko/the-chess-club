@@ -1,4 +1,4 @@
-import {backend_url} from '../utils/paths/endpoints';
+import {backend_url} from '../utils/paths/API';
 import axios from 'axios';
 import {history} from '../utils/history';
 import {urls} from '../utils/paths/urls';
