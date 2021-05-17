@@ -1,10 +1,11 @@
 .chat {
   display: flex;
   flex-direction: column;
-  background-color: #B3E5FF;
+  border: solid;
   width: 400px;
   height: 500px;
   overflow: auto;
+  margin: 10px;
 }
 
 
@@ -15,6 +16,9 @@
   padding: 10px;
   margin: 10px;
   list-style-type: none;
+  border-radius: 4px;
+  background-color: brown;
+  color: #fff;
 }
 
 

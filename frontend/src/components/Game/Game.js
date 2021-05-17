@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import gameSocket from "../../utils/Sockets/gameSocket";
 import {getGameEndpoint} from '../../utils/paths/API';
-import './Game.css';
 import Board from './Board';
-import {pawns} from './board_settings';
-import {color_chess} from './board_settings';
 
 class Game extends Component {
 
@@ -58,8 +55,7 @@ class Game extends Component {
 
   render() {
     return (
-      <Board whiteChess={this.state.whiteChess} 
-             blackChess={this.state.blackChess}/>
+      <Board />
     )
   }
 }
