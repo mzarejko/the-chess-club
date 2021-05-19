@@ -43,6 +43,10 @@ class GameWebSocket {
     if (command === SocketCommands.positions){
       this.callbacks[command](data.white_pos, data.black_pos)
     }
+    if (command === SocketCommands.squares){
+      this.callbacks[command](data.squares)
+    }
+    
 
   }
   
@@ -51,6 +55,16 @@ class GameWebSocket {
       command: "fetch_positions",
       gameId: gameId,
     };
+    this.sendMessage(data)
+  }
+  
+  getReachableSquare(gameId, pos, piece){
+    const data = {
+      command: "get_reachable_squares",
+      gameId: gameId,
+      position: pos,
+      piece: piece
+    }  
     this.sendMessage(data)
   }
 
@@ -73,8 +87,9 @@ class GameWebSocket {
     }
   }
 
-  addCallbacks(PositionsCallback) {
+  addCallbacks(PositionsCallback, SquareCallback) {
     this.callbacks["positions"] = PositionsCallback;
+    this.callbacks["squares"] = SquareCallback;
   }
 
   // tell if socket is ready

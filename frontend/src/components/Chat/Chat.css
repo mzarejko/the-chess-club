@@ -6,19 +6,20 @@
   height: 500px;
   overflow: auto;
   margin: 10px;
+  background-color: #a6bac4;
 }
 
 
 .message {
-  font-size: 12px;
+  font-size: 10px;
   background-color: #fff;
   width: 80%;
   padding: 10px;
   margin: 10px;
   list-style-type: none;
-  border-radius: 4px;
-  background-color: brown;
+  background-color: #4d2233;
   color: #fff;
+  font-family: 'Press Start 2P', cursive;
 }
 
 

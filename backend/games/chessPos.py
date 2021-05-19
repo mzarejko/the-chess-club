@@ -1,20 +1,20 @@
 
-# default position of chess on board
+# default position of chess on board 8x8 = 64 positions
 
-PAWNS_BLACK_POS = [[x,1] for x in range(0,7)]
-KING_BLACK_POS = [4,0]
-QUEEN_BLACK_POS = [3,0]
-ROOKS_BLACK_POS = [[0,0], [7,0]]
-BISHOPS_BLACK_POS = [[2,0], [5,0]]
-KNIGHTS_BLACK_POS = [[1,0], [6,0]]
+PAWNS_BLACK_POS = [x for x in range(8,16)]
+KING_BLACK_POS = [3]
+QUEEN_BLACK_POS = [4]
+ROOKS_BLACK_POS = [0,7]
+BISHOPS_BLACK_POS = [2, 5]
+KNIGHTS_BLACK_POS = [1, 6]
 
 
-PAWNS_WHITE_POS = [[x,6] for x in range(0,7)]
-KING_WHITE_POS = [4,7]
-QUEEN_WHITE_POS = [3,7]
-ROOKS_WHITE_POS = [[0,7], [7,7]]
-BISHOPS_WHITE_POS = [[2,7],[5,7]]
-KNIGHTS_WHITE_POS = [[1,7], [6,7]]
+PAWNS_WHITE_POS = [x for x in range(48,56)]
+KING_WHITE_POS = [59]
+QUEEN_WHITE_POS = [60]
+ROOKS_WHITE_POS = [56, 63]
+BISHOPS_WHITE_POS = [61, 58]
+KNIGHTS_WHITE_POS = [62, 57]
 
 
 # callable params, ArrayField need params in that form

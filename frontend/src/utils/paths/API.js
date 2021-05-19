@@ -13,6 +13,7 @@ export const backend_url = {
   LIST_GAMES : 'http://127.0.0.1:8000/games/',
 }
 
+
 export function getChatEndpoint(id, token){
   return `ws://127.0.0.1:8000/chat/${id}/?token=${token}`
 }

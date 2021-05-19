@@ -1,0 +1,81 @@
+.container
+{ 
+    display: inline-block;
+    left: 30%;
+    top: 10%;
+    margin: 10px;
+} 
+  
+.grid 
+{ 
+    display: grid;
+    grid-template-rows: repeat(8, 90px);
+    grid-template-columns: repeat(8,90px);
+    grid-gap: 3px;
+    background-color: #291a2b;
+    width: 760px;
+    height: 102%;
+} 
+  
+.field
+{ 
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 84px;
+} 
+
+.field
+{ 
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 84px;
+    background-color: #a6bac4;
+} 
+
+
+.field:nth-child(-2n+8), 
+.field:nth-child(8) ~ .field:nth-child(-2n+15), 
+.field:nth-child(16) ~ .field:nth-child(-2n+24),
+.field:nth-child(24) ~ .field:nth-child(-2n+31),
+.field:nth-child(32) ~ .field:nth-child(-2n+40),
+.field:nth-child(40) ~ .field:nth-child(-2n+47),
+.field:nth-child(48) ~ .field:nth-child(-2n+56),
+.field:nth-child(56) ~ .field:nth-child(-2n+63){ 
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 84px;
+    background-color: #4d2233;
+} 
+ 
+.piece {
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  border: 2mm ridge transparent;
+}
+
+.piece:hover
+{ 
+  box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.2);
+  border: 2mm ridge #8f404c;
+} 
+
+.piece:active
+{ 
+  box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.5);
+  border: 2mm ridge #8f404c;
+} 
+
+.piece {
+    cursor: pointer;
+}
+
+.piece img {
+    width: 38px;
+    display: relative;
+    margin-left: 20px;
+    margin-bottom: 60px;
+}

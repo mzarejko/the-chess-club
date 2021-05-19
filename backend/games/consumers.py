@@ -6,12 +6,13 @@ from accounts.models import User
 from django.shortcuts import get_object_or_404
 from enum import Enum, auto
 from .settings import Color, Chess
+from .chessName import Pieces
 
 class Commands(str, Enum):
     FETCH_POSITONS = 'fetch_positions'
     MOVE_CHESS_PIECE = 'move_piece'
+    GET_REACHABLE_SQUARE = 'get_reachable_squares'
 
-    
 
 class GameConsumer(WebsocketConsumer):
 
@@ -60,7 +61,20 @@ class GameConsumer(WebsocketConsumer):
             'black_pos': Game.get_black_pos(game)
         }
         self.send_to_game(content)
+    
+    def get_reachable_squares(self, data):
+        game = get_object_or_404(Game, id=data['gameId'])
+        if data['piece'] == Pieces.PAWN:
+            positions = game.whiteChessBoard.pawns
+            if data['pos'] in positions:
+                content = {
+                    'command': 'squares',
+                    'squares': []
+                }
+                self.send_to_game(content)
+
         
+
     
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
