@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {backend_url} from './paths/API';
-import {logout} from '../actions/auth';
+import {logout, refreshToken} from '../actions/auth';
 
 /*
  After each request this code check if request is aunthenticated 
@@ -15,17 +15,6 @@ const axiosInstance = axios.create({
     timeout: 5000,
 });
 
-function resetToken(){
-    axios.post(backend_url.REFRESH_TOKEN, {
-    "refresh" : localStorage.getItem('refresh_token') 
-    }).then((response) => {
-        localStorage.removeItem('access_token')
-        localStorage.setItem('access_token', response.data.access);
-    }).catch((err) => {
-        logout()
-        return err
-    });
-};
 
 axiosInstance.interceptors.request.use((config) => {
     console.log('request')
@@ -36,19 +25,16 @@ axiosInstance.interceptors.request.use((config) => {
     return error
 });
 
+
+
 axiosInstance.interceptors.response.use((response) => {
     return response;
 }, (error) => {
     console.log('response error')
     if (error.response.status === 401){
-        resetToken().then(()=>{
-            error.config.headers['Authorization'] = 'Bearer' + localStorage.getItem('access_token');
-            error.config.baseURL = undefined;
-            console.log('token refresh')
-            return axios.request(error.config);
-        });
+        return refreshToken(undefined, logout)
     }
-    return error
+    return Promise.reject(error)
 });
 
 

@@ -1,4 +1,5 @@
 import {SocketCommands} from './SocketCommands';
+import {logout, refreshToken} from '../../actions/auth';
 
 
 class ChatWebSocket {
@@ -24,6 +25,7 @@ class ChatWebSocket {
     }
 
     this.socket.onerror = (event)=> {
+      refreshToken(()=>{this.socket = new WebSocket(path)}, logout)
       console.log(event.message)
     }
 

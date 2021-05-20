@@ -5,6 +5,7 @@ import Board from './Board/Board';
 import Piece from './Board/Piece';
 import NormalSquare from './Board/NormalSquare';
 import ReachableSquare from './Board/ReachableSquare';
+import AttackSquare from './Board/AttackSquare';
 
 class Game extends Component {
 
@@ -22,7 +23,7 @@ class Game extends Component {
     gameSocket.connect(path)
     // get all old messages and set callbacks for websocket
     this.prepareConection(()=> {
-      gameSocket.addCallbacks(this.updatePos)
+      gameSocket.addCallbacks(this.updatePos, this.updateReachable)
       gameSocket.fetchPositions(this.props.gameId)
     });
   }
@@ -39,41 +40,58 @@ class Game extends Component {
       }
     }, 100);
   }
-  
-  findReachableSquare = (pos, piece) => {
-    gameSocket.getReachableSquare(this.props.gameId, pos, piece)
+ 
+
+  findReachableSquare = (pos, name, color) => {
+    gameSocket.getReachableSquare(this.props.gameId, pos, name, color)
   }
   
-  updateReachable = (reachable) => {
-    const new_board = [...this.state.board]
-    reachable.forEach((square, id) => {
-      new_board[square] = <ReachableSquare />
+  updateReachable = (reachable, oldPos, color, name, id) => {
+    console.log(reachable)
+    let refPos = [...this.state.board]
+    reachable.forEach((pos) => {
+      refPos[pos] = <ReachableSquare  setPiece={this.setPiece}
+                                      pos={pos}
+                                      oldPos={oldPos}
+                                      color={color}
+                                      name={name} />
     })
+
+    this.setState({
+      board: refPos
+    }, console.log(refPos))
   }
-  
+
+  setPiece = (pos, old_pos, color, name) => {
+    gameSocket.movePawn(this.props.gameId, pos, old_pos, color, name)
+  }
+
   updatePos = (white, black) => {
-    let whitePieces = Object.keys(white)
-    let blackPieces = Object.keys(black)
+    let whiteNames = Object.keys(white)
+    let blackNames = Object.keys(black)
     let new_board = Array(this.state.numPos).fill(<NormalSquare />)
 
     //set white piece
-    whitePieces.forEach((piece, id) => {
-      const ref = white[piece]
-      ref.position.forEach((pos, id)=>{
+    whiteNames.forEach((name) => {
+      const piece = white[name]
+      piece.position.forEach((pos)=>{
         new_board[pos] = <Piece findReachableSquare={this.findReachableSquare}
-                          image={white[piece].image}
-                          alt={piece} />
+                          image={piece.image}
+                          name={name}
+                          pos={pos}
+                          color={piece.color} />
       });
     });
 
     // set black piece
-    blackPieces.forEach((piece, id) => {
-      const ref = black[piece]
-      ref.position.forEach((pos, id)=>{
+    blackNames.forEach((name) => {
+      const piece = black[name]
+      piece.position.forEach((pos)=>{
         new_board[pos] = <Piece findReachableSquare={this.findReachableSquare}
-                          image={black[piece].image}
-                          alt={piece}
-                          pos={pos}/>
+                          image={piece.image}
+                          name={name}
+                          pos={pos}
+                          color={piece.color} />
       });
     });
 

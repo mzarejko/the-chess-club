@@ -3,8 +3,10 @@ import React from 'react'
 function ReachableSquare(props){
     
     return (
-        <div  onClick={this.props.setPiece} 
-             style={{'backgroundColor': 'yellow'}} />
+        <div className='field reach'  onClick={() => props.setPiece(props.pos,
+                                                                    props.oldPos,
+                                                                    props.color,
+                                                                    props.name)} /> 
     )
 
 }

@@ -54,13 +54,13 @@
     cursor: pointer;
     width: 100%;
     height: 100%;
-  border: 2mm ridge transparent;
+  border: 1mm ridge transparent;
 }
 
 .piece:hover
 { 
   box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.2);
-  border: 2mm ridge #8f404c;
+  border: 1mm ridge #8f404c;
 } 
 
 .piece:active
@@ -74,8 +74,23 @@
 }
 
 .piece img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
     width: 38px;
-    display: relative;
-    margin-left: 20px;
-    margin-bottom: 60px;
+
+}
+.reach {
+    background-color: rgba(255,255,179);
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.reach:hover {
+    background-color: rgba(255,255,179);
+    box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.5);
+    border: 1mm ridge #8f404c;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
 }

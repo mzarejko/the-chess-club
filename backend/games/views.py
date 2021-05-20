@@ -54,18 +54,18 @@ class JoinToGame(APIView):
     permission_classes = [IsAuthenticated, IsGameNotCompleted]
 
     def draw_color(self,game):
-        white_chess = get_object_or_404(WhiteChessBoard, id=game.chessBoardWhite)
-        black_chess = get_object_or_404(BlackChessBoard, id=game.chessBoardBlack)
+        white_chess = get_object_or_404(WhiteChessBoard, id=game.whiteChessBoard.id)
+        black_chess = get_object_or_404(BlackChessBoard, id=game.blackChessBoard.id)
 
         color = random.choice([color_chess.BLACK, color_chess.WHITE])
         if color == color_chess.BLACK:
             white_chess.owner = game.author
             game.who_has_turn = game.author
-            black_chess.owner = game.member 
+            black_chess.owner = game.opponent
             
         else:
-            white_chess.owner = game.member 
-            game.who_has_turn = game.member
+            white_chess.owner = game.opponent
+            game.who_has_turn = game.opponent
             black_chess.owner = game.author
 
         white_chess.save()

@@ -1,6 +1,7 @@
 from django.db import models 
 from accounts.models import User 
 from django.contrib.postgres.fields import ArrayField
+from datetime import datetime
 
 
 class Message(models.Model):
@@ -15,7 +16,7 @@ class Message(models.Model):
             'id': message.id,
             'author': message.author.username,
             'content': message.content,
-            'date': str(message.date)
+            'date': str(message.date)[10:16]
         }
         return result
 
@@ -30,7 +31,7 @@ class Chat(models.Model):
         json_messages = [{'id': message.id,
                           'author': message.author.username,
                           'content': message.content,
-                          'date': str(message.date)} for message in messages]
+                          'date': str(message.date)[10:16]} for message in messages]
         return json_messages
      
     

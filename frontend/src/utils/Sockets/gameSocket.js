@@ -1,4 +1,5 @@
 import {SocketCommands} from './SocketCommands';
+import {logout, refreshToken} from '../../actions/auth';
 
 class GameWebSocket {
 
@@ -23,6 +24,7 @@ class GameWebSocket {
     }
 
     this.socket.onerror = (event)=> {
+      refreshToken(()=>{this.socket = new WebSocket(path)}, logout)
       console.log(event.message)
     }
 
@@ -40,15 +42,14 @@ class GameWebSocket {
     data = JSON.parse(data)
     const command = data.command;
 
-    if (command === SocketCommands.positions){
+    if (command === SocketCommands.NEW_POSITIONS){
       this.callbacks[command](data.white_pos, data.black_pos)
     }
-    if (command === SocketCommands.squares){
-      this.callbacks[command](data.squares)
+    if (command === SocketCommands.REACHABLE_SQUARE){
+      this.callbacks[command](data.squares, data.oldPos, data.color, data.name)
     }
-    
-
   }
+  
   
   fetchPositions(gameId){
     const data = {
@@ -58,22 +59,26 @@ class GameWebSocket {
     this.sendMessage(data)
   }
   
-  getReachableSquare(gameId, pos, piece){
+  getReachableSquare(gameId, pos, name, color){
     const data = {
       command: "get_reachable_squares",
       gameId: gameId,
       position: pos,
-      piece: piece
+      name: name,
+      color: color
     }  
     this.sendMessage(data)
   }
 
-  movePawn(pos, color, pawn, id){
+  movePawn(gameId, pos, old_pos, color, name){
     const data = {
-      command: "move_pawn",
+      command: "move_piece",
+      gameId: gameId,
       color: color,
-      pawn: pawn,
-      id_pawn: id
+      name: name,
+      pos: pos,
+      old_pos: old_pos
+
     }
     this.sendMessage(data)
   }

@@ -5,8 +5,10 @@ class Piece extends Component {
     
     render() {
         return (
-            <div className='piece' onClick={() => this.props.findReachableSquares(this.props.pos, this.props.alt)}>
-                <img src={this.props.image} alt={this.props.alt} />
+            <div className='piece' onClick={() => this.props.findReachableSquare(this.props.pos, 
+                                                                                  this.props.name,
+                                                                                  this.props.color)}>
+                <img src={this.props.image} alt={this.props.name} />
             </div>
         )
     }

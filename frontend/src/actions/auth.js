@@ -75,3 +75,22 @@ export const sendMailToChangePassword = (email) => {
         console.log(error.request.response)
     })
 }
+
+
+export const refreshToken = (callback1, callback2) => {
+    axios.post(backend_url.REFRESH_TOKEN, {
+        "refresh" : localStorage.getItem('refresh_token') 
+    }).then((response) => {
+        localStorage.removeItem('access_token')
+        localStorage.setItem('access_token', response.data.access);
+        if (callback1){
+            callback1()
+        }
+    }).catch((err) => {
+        if (callback2){
+            callback2()
+        }
+       return err
+    });
+
+}

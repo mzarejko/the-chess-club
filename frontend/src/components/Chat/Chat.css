@@ -12,7 +12,6 @@
 
 .message {
   font-size: 10px;
-  background-color: #fff;
   width: 80%;
   padding: 10px;
   margin: 10px;
@@ -22,4 +21,7 @@
   font-family: 'Press Start 2P', cursive;
 }
 
-
+.message small {
+  position: relative;
+  left: 80%;
+}

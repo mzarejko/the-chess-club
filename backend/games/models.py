@@ -4,32 +4,30 @@ from chat.models import Chat
 from django.shortcuts import get_object_or_404
 from django.contrib.postgres.fields import ArrayField
 from string import ascii_uppercase
-from  . import chessPos 
-from . import chessImageAPI 
-from .chessName import Pieces
+from .chessSettings import Color, PiecesNameKeys, Positions, PieceMedia, ArrayFunc
 
 
 
 class WhiteChessBoard(models.Model):
 
     owner = models.ForeignKey(User, related_name='white_chess_owner', null=True, blank=True, on_delete=models.CASCADE)
-    pawns = ArrayField(models.PositiveIntegerField(), max_length=8, default=chessPos.get_white_pawns)
-    knights = ArrayField(models.PositiveIntegerField(), max_length=2, default=chessPos.get_white_knights)
-    queen = ArrayField(models.PositiveIntegerField(),max_length=1, default=chessPos.get_white_queen)
-    bishops = ArrayField(models.PositiveIntegerField(), max_length=2, default=chessPos.get_black_bishops)
-    rooks = ArrayField(models.PositiveIntegerField(), max_length=2, default=chessPos.get_white_rooks)
+    pawns = ArrayField(models.PositiveIntegerField(), max_length=8, default=ArrayFunc.get_white_pawns)
+    knights = ArrayField(models.PositiveIntegerField(), max_length=2, default=ArrayFunc.get_white_knights)
+    queen = ArrayField(models.PositiveIntegerField(),max_length=1, default=ArrayFunc.get_white_queen)
+    bishops = ArrayField(models.PositiveIntegerField(), max_length=2, default=ArrayFunc.get_white_bishops)
+    rooks = ArrayField(models.PositiveIntegerField(), max_length=2, default=ArrayFunc.get_white_rooks)
     king = ArrayField(models.PositiveIntegerField(),
-                            max_length=1, default=chessPos.get_white_king)
+                            max_length=1, default=ArrayFunc.get_white_king)
         
 class BlackChessBoard(models.Model):
     
     owner = models.ForeignKey(User, related_name='black_chess_owner', null=True, blank=True, on_delete=models.CASCADE)
-    pawns = ArrayField(models.PositiveIntegerField(), max_length=8, default=chessPos.get_black_pawns)
-    knights = ArrayField(models.PositiveIntegerField(), max_length=2, default=chessPos.get_black_knights)
-    queen = ArrayField(models.PositiveIntegerField(), max_length=1, default=chessPos.get_black_queen)
-    bishops = ArrayField(models.PositiveIntegerField(), max_length=2, default=chessPos.get_black_bishops)
-    rooks = ArrayField(models.PositiveIntegerField(), max_length=2, default=chessPos.get_black_rooks)
-    king = ArrayField(models.PositiveIntegerField(),max_length=1, default=chessPos.get_black_king)
+    pawns = ArrayField(models.PositiveIntegerField(), max_length=8, default=ArrayFunc.get_black_pawns)
+    knights = ArrayField(models.PositiveIntegerField(), max_length=2, default=ArrayFunc.get_black_knights)
+    queen = ArrayField(models.PositiveIntegerField(), max_length=1, default=ArrayFunc.get_black_queen)
+    bishops = ArrayField(models.PositiveIntegerField(), max_length=2, default=ArrayFunc.get_black_bishops)
+    rooks = ArrayField(models.PositiveIntegerField(), max_length=2, default=ArrayFunc.get_black_rooks)
+    king = ArrayField(models.PositiveIntegerField(),max_length=1, default=ArrayFunc.get_black_king)
 
 class Game(models.Model):
     author = models.ForeignKey(User, related_name='author', null=False, on_delete=models.CASCADE)
@@ -43,14 +41,10 @@ class Game(models.Model):
     completed = models.BooleanField(default=False)
     
 
-    @staticmethod
-    def get_user_turn(id_game):
-        game = get_object_or_404(Game, id=id_game)
-        return game.who_has_turn 
 
     @staticmethod
-    def next_turn(id_game):
-        game = get_object_or_404(Game, id=id_game)
+    def next_turn(id):
+        game = get_object_or_404(Game, id=id)
         if game.who_has_turn == game.author:
             game.who_has_turn = game.opponent 
         elif game.who_has_turn == game.opponent:
@@ -66,29 +60,35 @@ class Game(models.Model):
     @staticmethod
     def get_white_pos(game):
         json_pos = {}
-        json_pos[Pieces.PAWN] = {
+        json_pos[PiecesNameKeys.PAWN] = {
             'position': game.whiteChessBoard.pawns,
-            'image': chessImageAPI.WHITE_PAWN
+            'image': PieceMedia.WHITE_PAWN,
+            'color': Color.WHITE
         }
-        json_pos[Pieces.KNIGHT] = {
+        json_pos[PiecesNameKeys.KNIGHT] = {
             'position': game.whiteChessBoard.knights,
-            'image': chessImageAPI.WHITE_KNIGHT
+            'image': PieceMedia.WHITE_KNIGHT,
+            'color': Color.WHITE
         }
-        json_pos[Pieces.QUEEN] = {
+        json_pos[PiecesNameKeys.QUEEN] = {
             'position': game.whiteChessBoard.queen,
-            'image': chessImageAPI.WHITE_QUEEN
+            'image': PieceMedia.WHITE_QUEEN,
+            'color': Color.WHITE
         }
-        json_pos[Pieces.BISHOP] = {
+        json_pos[PiecesNameKeys.BISHOP] = {
             'position': game.whiteChessBoard.bishops,
-            'image': chessImageAPI.WHITE_BISHOP
+            'image': PieceMedia.WHITE_BISHOP,
+            'color': Color.WHITE
         }
-        json_pos[Pieces.ROOK] = {
+        json_pos[PiecesNameKeys.ROOK] = {
             'position': game.whiteChessBoard.rooks,
-            'image': chessImageAPI.WHITE_ROOK
+            'image': PieceMedia.WHITE_ROOK,
+            'color': Color.WHITE
         }
-        json_pos[Pieces.KING] = {
+        json_pos[PiecesNameKeys.KING] = {
             'position': game.whiteChessBoard.king,
-            'image' : chessImageAPI.WHITE_KING
+            'image': PieceMedia.WHITE_KING,
+            'color': Color.WHITE
         }
 
         return json_pos
@@ -97,29 +97,35 @@ class Game(models.Model):
     @staticmethod
     def get_black_pos(game):
         json_pos = {}
-        json_pos[Pieces.PAWN] = {
+        json_pos[PiecesNameKeys.PAWN] = {
             'position': game.blackChessBoard.pawns,
-            'image': chessImageAPI.BLACK_PAWN 
+            'image': PieceMedia.BLACK_PAWN,
+            'color': Color.BLACK
         }
-        json_pos[Pieces.KNIGHT] = {
+        json_pos[PiecesNameKeys.KNIGHT] = {
             'position': game.blackChessBoard.knights,
-            'image': chessImageAPI.BLACK_KNIGHT 
+            'image': PieceMedia.BLACK_KNIGHT,
+            'color': Color.BLACK
         }
-        json_pos[Pieces.QUEEN] = {
+        json_pos[PiecesNameKeys.QUEEN] = {
             'position': game.blackChessBoard.queen,
-            'image': chessImageAPI.BLACK_QUEEN
+            'image': PieceMedia.BLACK_QUEEN,
+            'color': Color.BLACK
         }
-        json_pos[Pieces.BISHOP] = {
+        json_pos[PiecesNameKeys.BISHOP] = {
             'position': game.blackChessBoard.bishops,
-            'image': chessImageAPI.BLACK_BISHOP
+            'image': PieceMedia.BLACK_BISHOP,
+            'color': Color.BLACK
         }
-        json_pos[Pieces.ROOK] = {
+        json_pos[PiecesNameKeys.ROOK] = {
             'position': game.blackChessBoard.rooks,
-            'image': chessImageAPI.BLACK_ROOK
+            'image': PieceMedia.BLACK_ROOK,
+            'color': Color.BLACK
         }
-        json_pos[Pieces.KING] = {
+        json_pos[PiecesNameKeys.KING] = {
             'position': game.blackChessBoard.king,
-            'image' : chessImageAPI.BLACK_KING
+            'image': PieceMedia.BLACK_KING,
+            'color': Color.BLACK
         }
 
         return json_pos
