@@ -60,6 +60,8 @@ STATICFILES_DIRS = [
 ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_URL = '/static/'
+STATIC_MEDIA = '/media/'
 
 # ASGI is for djnago channel
 ASGI_APPLICATION = 'base.routing.application'
