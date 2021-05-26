@@ -1,4 +1,4 @@
-import {SocketCommands} from './SocketCommands';
+import {frontendToBackendCommands, backendToFrontendCommands} from './SocketCommands';
 import {logout, refreshToken} from '../../actions/auth';
 
 
@@ -43,11 +43,11 @@ class ChatWebSocket {
     data = JSON.parse(data)
     const command = data.command;
 
-    if (command === SocketCommands.messages){
+    if (command === backendToFrontendCommands.UPDATE_MESSAGES){
       this.callbacks[command](data.messages)
     }
 
-    if (command === SocketCommands.new_message){
+    if (command === backendToFrontendCommands.UPDATE_NEW_MESSAGE){
       this.callbacks[command](data.message)
     }
 
@@ -55,7 +55,7 @@ class ChatWebSocket {
   
   fetchMessages(chatId){
     const data = {
-      command: "fetch_messages",
+      command: frontendToBackendCommands.FETCH_MESSAGES,
       chatId: chatId,
     };
     this.sendMessage(data)
@@ -63,7 +63,7 @@ class ChatWebSocket {
 
   sendChatMessage(message){
     const data = {
-      command: "new_message",
+      command: frontendToBackendCommands.SEND_NEW_MESSAGE,
       message: message.content,
       chatId: message.chatId
     }
@@ -80,8 +80,8 @@ class ChatWebSocket {
   }
 
   addCallbacks(fetchMessagesCallback, newMessageCallback) {
-    this.callbacks["messages"] = fetchMessagesCallback;
-    this.callbacks["new_message"] = newMessageCallback;
+    this.callbacks[backendToFrontendCommands.UPDATE_MESSAGES] = fetchMessagesCallback;
+    this.callbacks[backendToFrontendCommands.UPDATE_NEW_MESSAGE] = newMessageCallback;
   }
 
 

@@ -1,4 +1,4 @@
-import {SocketCommands} from './SocketCommands';
+import {frontendToBackendCommands, backendToFrontendCommands} from './SocketCommands';
 import {logout, refreshToken} from '../../actions/auth';
 
 class GameWebSocket {
@@ -42,26 +42,26 @@ class GameWebSocket {
     data = JSON.parse(data)
     const command = data.command;
 
-    if (command === SocketCommands.NEW_POSITIONS){
+    if (command === backendToFrontendCommands.UPDATE_POSITIONS){
       this.callbacks[command](data.white_pos, data.black_pos)
     }
-    if (command === SocketCommands.REACHABLE_SQUARE){
-      this.callbacks[command](data.squares, data.oldPos, data.color, data.name)
+    if (command === backendToFrontendCommands.UPDATE_REACHABLE_SQUARES){
+      this.callbacks[command](data.reachable_squares, data.attack_squares, data.oldPos, data.color, data.name)
     }
   }
   
   
   fetchPositions(gameId){
     const data = {
-      command: "fetch_positions",
+      command: frontendToBackendCommands.FETCH_POSITIONS,
       gameId: gameId,
     };
     this.sendMessage(data)
   }
   
-  getReachableSquare(gameId, pos, name, color){
+  fetchReachableSquare(gameId, pos, name, color){
     const data = {
-      command: "get_reachable_squares",
+      command: frontendToBackendCommands.FETCH_REACHABLE_SQUARES,
       gameId: gameId,
       position: pos,
       name: name,
@@ -70,9 +70,9 @@ class GameWebSocket {
     this.sendMessage(data)
   }
 
-  movePawn(gameId, pos, old_pos, color, name){
+  movePiece(gameId, pos, old_pos, color, name){
     const data = {
-      command: "move_piece",
+      command: frontendToBackendCommands.MOVE_PIECE,
       gameId: gameId,
       color: color,
       name: name,
@@ -83,6 +83,17 @@ class GameWebSocket {
     this.sendMessage(data)
   }
 
+  removePiece(gameId, pos, old_pos, color, name){
+    const data = {
+      command: frontendToBackendCommands.REMOVE_PIECE,
+      gameId: gameId,
+      color: color,
+      name: name,
+      pos: pos,
+      old_pos: old_pos
+    }
+    this.sendMessage(data)
+  }
 
   sendMessage(data){
     try{
@@ -93,8 +104,8 @@ class GameWebSocket {
   }
 
   addCallbacks(PositionsCallback, SquareCallback) {
-    this.callbacks["positions"] = PositionsCallback;
-    this.callbacks["squares"] = SquareCallback;
+    this.callbacks[backendToFrontendCommands.UPDATE_POSITIONS] = PositionsCallback;
+    this.callbacks[backendToFrontendCommands.UPDATE_REACHABLE_SQUARES] = SquareCallback;
   }
 
   // tell if socket is ready

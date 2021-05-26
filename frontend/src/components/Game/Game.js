@@ -13,7 +13,8 @@ class Game extends Component {
     super(props)
     this.state = {
       numPos: 64,
-      board: []
+      board: [],
+      cleanBoard: []
     }
   }
 
@@ -43,27 +44,40 @@ class Game extends Component {
  
 
   findReachableSquare = (pos, name, color) => {
-    gameSocket.getReachableSquare(this.props.gameId, pos, name, color)
+    gameSocket.fetchReachableSquare(this.props.gameId, pos, name, color)
   }
   
-  updateReachable = (reachable, oldPos, color, name, id) => {
-    console.log(reachable)
-    let refPos = [...this.state.board]
-    reachable.forEach((pos) => {
-      refPos[pos] = <ReachableSquare  setPiece={this.setPiece}
-                                      pos={pos}
-                                      oldPos={oldPos}
-                                      color={color}
-                                      name={name} />
+  updateReachable = (reachable_squares, attack_squares, oldPos, color, name) => {
+    // before each update of reachable squares board have to be clean, without previous reachable squares
+    let refPos = [...this.state.cleanBoard]
+    reachable_squares.forEach((pos) => {
+      refPos[pos] = <ReachableSquare setPiece={this.setPiece}
+                                     pos={pos}
+                                     oldPos={oldPos}
+                                     color={color}
+                                     name={name} />
+    })
+
+    attack_squares.forEach((pos) => {
+      const piece = refPos[pos]
+      refPos[pos] = <AttackSquare takePiece={this.takePiece}
+                                  piece={piece}
+                                  pos={pos}
+                                  oldPos={oldPos}
+                                  color={color}
+                                  name={name} />
     })
 
     this.setState({
       board: refPos
     }, console.log(refPos))
   }
-
+  
+  takePiece = (pos, old_pos, color, name) => {
+    gameSocket.removePiece(this.props.gameId, pos, old_pos, color, name)
+  }
   setPiece = (pos, old_pos, color, name) => {
-    gameSocket.movePawn(this.props.gameId, pos, old_pos, color, name)
+    gameSocket.movePiece(this.props.gameId, pos, old_pos, color, name)
   }
 
   updatePos = (white, black) => {
@@ -97,6 +111,7 @@ class Game extends Component {
 
 
     this.setState({
+      cleanBoard: new_board,
       board: new_board
     },()=> console.log(this.state.board))
   }
