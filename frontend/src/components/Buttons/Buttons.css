@@ -1,0 +1,70 @@
+:root {
+    --primary: #29444f;
+    z-index: 999;
+}
+
+.btn {
+    align-items: center;
+    padding: auto;
+    margin: 10px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    width: 90%;
+    border-radius: 0px;
+    max-width: 300px;
+}
+
+.primary {
+    border-radius: 50px; 
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid var(--primary);
+    transition: all 0.3s ease-out;
+}
+
+.outline {
+    background-color: transparent;
+    color: #fff;
+    border: 2px solid var(--primary);
+    transition: all 0.3s ease-out;
+}
+
+.medium {
+    font-family: 'Press Start 2P', cursive;
+    padding: 4px 20px;
+    font-size: 20px;
+}
+
+.large {
+    padding: 5px 26px;
+    font-size: 20px;
+}
+
+.medium:hover, .large:hover {
+    background: #29444f;
+    color: #fff;
+    transition: all 0.3s ease-out;
+}
+
+
+@media screen and (max-width: 700px) {
+    .btn {
+
+        margin: 15px;
+        width: 90%;
+    }
+
+    .medium {
+        padding: 4px 20px;
+        font-size: 15px;
+    }
+
+    .large {
+        padding: 5px 26px;
+        font-size: 15px;
+    }
+}
+
+
+

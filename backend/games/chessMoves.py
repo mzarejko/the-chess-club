@@ -1,10 +1,35 @@
+from enum import Enum
 
-def check_if_everything_in_range(moves):
-    ref = list(moves.copy())
-    for move in moves:
-        if move < 0 or move > 63:
-            ref.remove(move)
-    return ref
+class PieceMovesAttack(list, Enum):
+    PAWNS_WHITE_SECOND = [[[-1,0]]]
+    PAWNS_WHITE_FIRST = [[[-1,0]], [[-2,0]]]
+    PAWNS_WHITE_ATTACK = [[[-1,-1]],[[-1, 1]]]
+
+    PAWNS_BLACK_SECOND = [[[1, 0]]]
+    PAWNS_BLACK_FIRST = [[[1, 0]], [[2,0]]]
+    PAWNS_BLACK_ATTACK = [[[1,-1]], [[1,1]]]
+
+    BISHOP_MOVES_ATTACKS = [[[x,x] for x in range(1, 7)],
+                            [[-x,-x] for x in range(1, 7)],
+                            [[x,-x] for x in range(1, 7)],
+                            [[-x,x] for x in range(1, 7)]]
+
+    ROOK_MOVES_ATTACKS = [[[0,x] for x in range(1,7)],
+                          [[x,0] for x in range(1,7)],
+                          [[0,-x] for x in range(1,7)],
+                          [[-x,0] for x in range(1,7)]]
+    
+    QUEEN_MOVES_ATTACKS = [[[0,x] for x in range(1,7)],
+                           [[x,0] for x in range(1,7)],
+                           [[0,-x] for x in range(1,7)],
+                           [[-x,0] for x in range(1,7)],
+                           [[x,x] for x in range(1,7)],
+                           [[-x,-x] for x in range(1,7)],
+                           [[x,-x] for x in range(1,7)],
+                           [[-x,x] for x in range(1,7)]]
+    
+    KNIGHT_MOVES_ATTACKS = [[[-2,-1]], [[-2,1]], [[2,-1]], [[2,1]], [[1, 2]], [[-1, 2]], [[-1,-2]], [[1,-2]]]
+    KING_MOVES_ATTACKS = [[[0,1]], [[1,0]], [[1,1]], [[-1,0]], [[0,-1]], [[1,-1]], [[-1,1]], [[-1,-1]]]
  
 def check_obstacles(ref, pieces):
     for pos in pieces.pawns:
@@ -31,188 +56,125 @@ def check_obstacles(ref, pieces):
     return False
  
  
-def update_moves(positions, move, my_piece, enemies, moves, attack):
+def update_moves(positions, offset, my_piece, enemies, moves, attack):
     for pos in positions:
-        if check_obstacles(pos+move, enemies):
-            attack+= [pos+move]
+        numeric_pos = pos[0]*8+pos[1]
+        dimension_offset = [offset/8, offset%8]
+        output_pos_dimension = [pos[0]+dimension_offset[0], 
+                                pos[1]+dimension_offset[1]]
+        
+        # check if move will not go out of array scope
+        if output_pos_dimension[0]>7 or output_pos_dimension[1]>7 or\
+            output_pos_dimension[0]< 0 or output_pos_dimension[1]<0:
+                break
+
+        if check_obstacles(numeric_pos+offset, enemies):
+            next_pos = numeric_pos+offset
+            
+            if next_pos>=0 and next_pos<64:
+                attack+= [next_pos]
             break
-        elif not check_obstacles(pos+move, my_piece):
-            moves+= [pos+move]
+        elif not check_obstacles(numeric_pos+offset, my_piece):
+            next_pos = numeric_pos+offset
+
+            if next_pos>=0 and next_pos<64:
+                moves+= [next_pos]
+            else:
+                break
+        else:
+            break
     
     return moves, attack
+
+
+def check_if_everything_in_range(moves):
+    ref = list(moves.copy())
+    for move in moves:
+        if move < 0 or move > 63:
+            ref.remove(move)
+    return ref
 
 class PieceMoves:
 
     @staticmethod
-    def get_white_pawn_moves(pos, my_piece, enemies, first=False):
+    def get_white_pawn_moves(offset, my_piece, enemies, first=False):
         moves = []
         attack = []
+
+        for poses in PieceMovesAttack.PAWNS_WHITE_ATTACK:
+            _, attack = update_moves(poses, offset, my_piece, enemies, [], attack)
+
         if first:
-            if check_obstacles(pos-9, enemies):
-                attack+= [pos-9]
-            if check_obstacles(pos-7, enemies):
-                attack+= [pos-7]
-            if not check_obstacles(pos-8, my_piece) and not check_obstacles(pos-8, enemies):
-                moves += [pos-8]
-
-            if not check_obstacles(pos-16, my_piece) and not check_obstacles(pos-16, enemies):
-                moves+= [pos-16]
+            for poses in PieceMovesAttack.PAWNS_WHITE_FIRST:
+                moves, attack = update_moves(poses, offset, my_piece, enemies, moves, attack)
         else:
-            if check_obstacles(pos-9, enemies):
-                attack+= [pos-9]
-            if check_obstacles(pos-7, enemies):
-                attack+= [pos-7]
-            if not check_obstacles(pos-8, my_piece) and not check_obstacles(pos-8, enemies):
-                moves += [pos-8]
+            for poses in PieceMovesAttack.PAWNS_WHITE_SECOND:
+                moves, attack = update_moves(poses, offset, my_piece, enemies, moves, attack)
 
-        moves = check_if_everything_in_range(moves)
-        attack = check_if_everything_in_range(attack)
         return moves, attack 
 
     @staticmethod
-    def get_black_pawn_moves(pos, my_piece, enemies, first=False):
+    def get_black_pawn_moves(offset, my_piece, enemies, first=False):
         moves = []
         attack = []
+        for poses in PieceMovesAttack.PAWNS_BLACK_ATTACK:
+            _, attack = update_moves(poses, offset, my_piece, enemies, [], attack)
+        
         if first:
-            if check_obstacles(pos+9, enemies):
-                attack+= [pos+9]
-            if check_obstacles(pos+7, enemies):
-                attack+= [pos+7]
-            if not check_obstacles(pos+8, my_piece) and not check_obstacles(pos+8, enemies):
-                moves += [pos+8]
+            for poses in PieceMovesAttack.PAWNS_BLACK_FIRST:
+                moves, attack = update_moves(poses, offset, my_piece, enemies, moves, attack)
         else:
-            if check_obstacles(pos+9, enemies):
-                attack+= [pos+9]
-            if check_obstacles(pos+7, enemies):
-                attack+= [pos+7]
-            if not check_obstacles(pos+8, my_piece) and not check_obstacles(pos+8, enemies):
-                moves += [pos+8]
+            for poses in PieceMovesAttack.PAWNS_BLACK_SECOND:
+                moves, attack = update_moves(poses, offset, my_piece, enemies, moves, attack)
 
-        moves = check_if_everything_in_range(moves)
-        attack = check_if_everything_in_range(attack)
-         
         return moves, attack
         
     
     @staticmethod
-    def get_bishop_moves(pos, my_piece, enemies):
+    def get_bishop_moves(offset, my_piece, enemies):
         moves = []
         attack = []
 
-        moves, attack = update_moves([x for x in range(9, 64, 9)], pos, my_piece, enemies, moves, attack)
-        moves, attack = update_moves([x for x in range(-9, -64, -9)], pos, my_piece, enemies, moves, attack)
-        moves, attack = update_moves([x for x in range(7, 64, 7)], pos, my_piece, enemies, moves, attack)
-        moves, attack = update_moves([x for x in range(-7, -64, -7)], pos, my_piece, enemies, moves, attack)
-        moves = check_if_everything_in_range(moves)
-        attack = check_if_everything_in_range(attack)
+        for poses in PieceMovesAttack.BISHOP_MOVES_ATTACKS:
+            moves, attack = update_moves(poses, offset, my_piece, enemies, moves, attack)
         return moves, attack
     
     @staticmethod
-    def get_rook_moves(pos, my_piece, enemies):
+    def get_rook_moves(offset, my_piece, enemies):
         moves = []
         attack = []
 
-        moves, attack = update_moves([x for x in range(8, 64, 8)], pos, my_piece, enemies, moves, attack)
-        moves, attack = update_moves([x for x in range(-8, -64, -8)], pos, my_piece, enemies, moves, attack)
-        moves, attack = update_moves([x for x in range(1, 8)], pos, my_piece, enemies, moves, attack)
-        moves, attack = update_moves([x for x in range(-1, -8, -1)], pos, my_piece, enemies, moves, attack)
-        moves = check_if_everything_in_range(moves)
-        attack = check_if_everything_in_range(attack)
+        for poses in PieceMovesAttack.ROOK_MOVES_ATTACKS:
+            moves, attack = update_moves(poses, offset, my_piece, enemies, moves, attack)
         return moves, attack
     
     @staticmethod
-    def get_queen_moves(pos, my_piece, enemies):
+    def get_queen_moves(offset, my_piece, enemies):
         moves = []
         attack = []
 
-        moves, attack = update_moves([x for x in range(8, 64, 8)], pos, my_piece, enemies, moves, attack)
-        moves, attack = update_moves([x for x in range(-8, -64, -8)], pos, my_piece, enemies, moves, attack)
-        moves, attack = update_moves([x for x in range(1, 8)], pos, my_piece, enemies, moves, attack)
-        moves, attack = update_moves([x for x in range(-1, -8, -1)], pos, my_piece, enemies, moves, attack)
-        moves, attack = update_moves([x for x in range(9, 64, 9)], pos, my_piece, enemies, moves, attack)
-        moves, attack = update_moves([x for x in range(-9, -64, -9)], pos, my_piece, enemies, moves, attack)
-        moves, attack = update_moves([x for x in range(7, 64, 7)], pos, my_piece, enemies, moves, attack)
-        moves, attack = update_moves([x for x in range(-7, -64, -7)], pos, my_piece, enemies, moves, attack)
+        for poses in PieceMovesAttack.QUEEN_MOVES_ATTACKS:
+            moves, attack = update_moves(poses, offset, my_piece, enemies, moves, attack)
 
-        moves = check_if_everything_in_range(moves)
-        attack = check_if_everything_in_range(attack)
         return moves, attack
     
     @staticmethod
-    def get_knight_moves(pos, my_piece, enemies):
+    def get_knight_moves(offset, my_piece, enemies):
         moves = []
         attack = []
+        
+        for poses in PieceMovesAttack.KNIGHT_MOVES_ATTACKS:
+            moves, attack = update_moves(poses, offset, my_piece, enemies, moves, attack)
 
-        if check_obstacles(pos-15, enemies):
-            attack+= [pos-15]
-        elif not check_obstacles(pos-15, my_piece):
-            moves += [pos-15]
-
-        if check_obstacles(pos-17, enemies):
-            attack+= [pos-17]
-        elif not check_obstacles(pos-17, my_piece):
-            moves += [pos-17]
-
-        if check_obstacles(pos+15, enemies):
-            attack+= [pos+15]
-        elif not check_obstacles(pos+15, my_piece):
-            moves += [pos+15]
-
-        if check_obstacles(pos+17, enemies):
-            attack+= [pos+17]
-        elif not check_obstacles(pos+17, my_piece):
-            moves += [pos+17]
-
-        moves = check_if_everything_in_range(moves)
-        attack = check_if_everything_in_range(attack)
         return moves, attack
     
     @staticmethod
-    def get_king_moves(pos, my_piece, enemies):
+    def get_king_moves(offset, my_piece, enemies):
         moves = []
         attack = []
 
-        if check_obstacles(pos-1, enemies):
-            attack+= [pos-1]
-        elif not check_obstacles(pos-1, my_piece):
-            moves += [pos-1]
+        for poses in PieceMovesAttack.KING_MOVES_ATTACKS:
+            moves, attack = update_moves(poses, offset, my_piece, enemies, moves, attack)
 
-        if check_obstacles(pos-8, enemies):
-            attack+= [pos-8]
-        elif not check_obstacles(pos-8, my_piece):
-            moves += [pos-8]
-
-        if check_obstacles(pos+1, enemies):
-            attack+= [pos+1]
-        elif not check_obstacles(pos+1, my_piece):
-            moves += [pos+1]
-
-        if check_obstacles(pos+8, enemies):
-            attack+= [pos+8]
-        elif not check_obstacles(pos+8, my_piece):
-            moves += [pos+8]
-
-        if check_obstacles(pos+9, enemies):
-            attack+= [pos+9]
-        elif not check_obstacles(pos+9, my_piece):
-            moves += [pos+9]
-
-        if check_obstacles(pos-9, enemies):
-            attack+= [pos-9]
-        elif not check_obstacles(pos-9, my_piece):
-            moves += [pos-9]
-
-        if check_obstacles(pos+7, enemies):
-            attack+= [pos+7]
-        elif not check_obstacles(pos+7, my_piece):
-            moves += [pos+7]
-
-        if check_obstacles(pos-7, enemies):
-            attack+= [pos-7]
-        elif not check_obstacles(pos-7, my_piece):
-            moves += [pos-7]
-
-        moves = check_if_everything_in_range(moves)
-        attack = check_if_everything_in_range(attack)
         return moves, attack
 

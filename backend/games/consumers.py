@@ -17,6 +17,9 @@ class frontend_backend_commands(str, Enum):
 class backend_frontend_commands(str, Enum):
     UPDATE_REACHABLE_SQUARES = 'squares'
     UPDATE_POSITIONS = 'positions'
+    END_GAME = 'end'
+    CHECK = 'check'
+    UNCHACK = 'uncheck'
 
 class GameConsumer(WebsocketConsumer):
 
@@ -60,9 +63,39 @@ class GameConsumer(WebsocketConsumer):
                id = board.knights.index(data['old_pos']) 
                board.knights[id] = data['pos']
                board.save()
+    
+    def checkIfCheck(self, data, my_piece, enemies):
+        tps = [[my_piece.pawns, PiecesNameKeys.PAWN],
+               [my_piece.queen, PiecesNameKeys.QUEEN],
+               [my_piece.knights, PiecesNameKeys.KNIGHT],
+               [my_piece.bishops, PiecesNameKeys.BISHOP],
+               [my_piece.rooks, PiecesNameKeys.ROOK]]
+        
+        # tak wiem to jest straszne!
+        for tpy in tps:
+            name = tpy[1]
+            for pos in tpy[0]:
+                _, attack = self.__get_moves_for_piece(pos, name, 
+                                               my_piece, enemies, data['color'])
+                
+                for att in attack:
+                    if att in enemies.king:
+                        self.check()
+                        return
+                    else:
+                        self.unCheck()
+             
 
     def move_piece(self, data):
         game = get_object_or_404(Game, id=data['gameId'])
+
+        if data['color'] == Color.WHITE:
+            my_piece = game.whiteChessBoard
+            enemies = game.blackChessBoard 
+        elif data['color'] == Color.BLACK:
+            my_piece = game.blackChessBoard
+            enemies = game.whiteChessBoard 
+
         if game.who_has_turn == self.user:
             if data['color'] == Color.WHITE:
                 board = game.whiteChessBoard
@@ -72,6 +105,8 @@ class GameConsumer(WebsocketConsumer):
                 raise Exception('missing color!')
 
             self.__update_piece_positons(data, board)
+            self.checkIfCheck(data, my_piece, enemies)
+             
             Game.next_turn(game.id)
 
         content = {
@@ -84,33 +119,21 @@ class GameConsumer(WebsocketConsumer):
 
     def __get_moves_for_piece(self, pos, name, my_piece, enemies, color):
         if name == PiecesNameKeys.PAWN:
-            position = my_piece.pawns
-            if pos in position:
-                if color == Color.WHITE:
-                    return pm.get_white_pawn_moves(pos, my_piece, enemies)
-                if color == Color.BLACK:
-                    return pm.get_black_pawn_moves(pos, my_piece, enemies)
+            if color == Color.WHITE:
+                return pm.get_white_pawn_moves(pos, my_piece, enemies)
+            if color == Color.BLACK:
+                return pm.get_black_pawn_moves(pos, my_piece, enemies)
 
         elif name == PiecesNameKeys.BISHOP:
-            position = my_piece.bishops
-            if pos in position:
-                return pm.get_bishop_moves(pos, my_piece, enemies)
+            return pm.get_bishop_moves(pos, my_piece, enemies)
         elif name == PiecesNameKeys.ROOK:
-            position = my_piece.rooks
-            if pos in position:
-                return pm.get_rook_moves(pos, my_piece, enemies)
+            return pm.get_rook_moves(pos, my_piece, enemies)
         elif name == PiecesNameKeys.QUEEN:
-            position = my_piece.queen
-            if pos in position:
-                return pm.get_queen_moves(pos, my_piece, enemies)
+            return pm.get_queen_moves(pos, my_piece, enemies)
         elif name == PiecesNameKeys.KING:
-            position = my_piece.king
-            if pos in position:
-                return pm.get_king_moves(pos, my_piece, enemies)
+            return pm.get_king_moves(pos, my_piece, enemies)
         elif name == PiecesNameKeys.KNIGHT:
-            position = my_piece.knights
-            if pos in position:
-                return pm.get_knight_moves(pos, my_piece, enemies)
+            return pm.get_knight_moves(pos, my_piece, enemies)
     
 
     def get_reachable_squares(self, data):
@@ -127,60 +150,78 @@ class GameConsumer(WebsocketConsumer):
         if my_piece.owner != self.user or game.who_has_turn != self.user:
             return  
 
-        moves, attack = self.__get_moves_for_piece(data['position'], data['name'], 
+        moves, attack = self.__get_moves_for_piece(data['pos'], data['name'], 
                                            my_piece, enemies, data['color'])
         content = {
             'command': backend_frontend_commands.UPDATE_REACHABLE_SQUARES,
             'reachable_squares': moves,
             'attack_squares': attack,
-            'oldPos': data['position'],
+            'oldPos': data['pos'],
             'color': data['color'],
             'name': data['name']
         }
         self.send_to_game(content)
 
-        
+
+    def end_game(self, data, winner):
+        Game.mark_complete(data['gameId'], winner.id)
+        content = {
+            'command': backend_frontend_commands.END_GAME,
+            'winner' : winner
+        }
+        self.send_to_game(content)
+    
+    def check(self):
+        content = {
+            'command': backend_frontend_commands.CHECK,
+        }
+        self.send_to_game(content)
+
+    def unCheck(self):
+        content = {
+            'command': backend_frontend_commands.UNCHACK,
+        }
+        self.send_to_game(content)
+
     def remove_piece(self, data):
         game = get_object_or_404(Game, id=data['gameId'])
         if data['color'] == Color.WHITE:
+            print('color: ',data['color'])
             my_piece = game.whiteChessBoard
             enemies = game.blackChessBoard 
         elif data['color'] == Color.BLACK:
+            print('color: ',data['color'])
             my_piece = game.blackChessBoard
             enemies = game.whiteChessBoard 
         else:
             raise Exception('chess with that color not exist!')
         
-        if data['name'] == PiecesNameKeys.PAWN:
-            if data['pos'] in enemies.pawns:
-                enemies.pawns.remove(data['pos'])
+        if data['pos'] in enemies.pawns:
+            enemies.pawns.remove(data['pos'])
 
-        elif data['name'] == PiecesNameKeys.BISHOP:
-            if data['pos'] in enemies.bishops:
-                enemies.bishops.remove(data['pos'])
+        if data['pos'] in enemies.bishops:
+            enemies.bishops.remove(data['pos'])
 
-        elif data['name'] == PiecesNameKeys.ROOK:
-            if data['pos'] in enemies.rooks:
-                enemies.rooks.remove(data['pos'])
+        if data['pos'] in enemies.rooks:
+            enemies.rooks.remove(data['pos'])
 
-        elif data['name'] == PiecesNameKeys.QUEEN:
-            if data['pos'] in enemies.queen:
-                enemies.queen.remove(data['pos'])
+        if data['pos'] in enemies.queen:
+            enemies.queen.remove(data['pos'])
 
-        elif data['name'] == PiecesNameKeys.KING:
-            if data['pos'] in enemies.king:
-                enemies.king.remove(data['pos'])
-                Game.mark_complete(game, self.user.id)
+        if data['pos'] in enemies.king:
+            enemies.king.remove(data['pos'])
+            self.end_game(data, self.user)
 
-        elif data['name'] == PiecesNameKeys.KNIGHT:
-            if data['pos'] in enemies.knights:
-                enemies.knights.remove(data['pos'])
+        if data['pos'] in enemies.knights:
+            enemies.knights.remove(data['pos'])
     
         enemies.save()
         game.save()
         my_piece.save()
        
         self.move_piece(data)
+
+
 
     def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']

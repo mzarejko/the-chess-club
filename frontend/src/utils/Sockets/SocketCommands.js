@@ -2,7 +2,10 @@ export const backendToFrontendCommands = {
   UPDATE_MESSAGES: 'messages',
   UPDATE_NEW_MESSAGE: 'new_message',
   UPDATE_POSITIONS: 'positions',
-  UPDATE_REACHABLE_SQUARES: 'squares'
+  UPDATE_REACHABLE_SQUARES: 'squares',
+  CHECK: 'check',
+  UNCHECK: 'uncheck',
+  END_GAME: 'end'
 }
 
 export const frontendToBackendCommands = {

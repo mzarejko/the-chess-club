@@ -1,24 +1,41 @@
 .logo-navbar {
-  display: flex;
   font-family: 'Press Start 2P', cursive;
   color: #fff;
+  font-size: 38px;
 }
 
 
 .Navbar {
-  background: #1f292e;
+  background: #223b42;
   height: 5vh;
   display: flex;
   position: sticky;
-  padding: 50px;
+  padding: 40px;
+  margin-bottom: 3em;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
 
+
 .logout {
     position: absolute;
     right: 0;
     top: 0;
-    padding: 40px;
+    margin: 0.5em;
 }
+
+
+@media screen and (max-width: 900px) {
+  .logo-navbar {
+    font-size: 20px;
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  .logo-navbar {
+    font-size: 15px;
+  }
+}
+

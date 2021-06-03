@@ -16,7 +16,7 @@ class Cards extends Component {
                                             <img src={item.image} alt={item.alt} /> 
                                             <svg id="card" className="main-svg" 
                                                 viewBox="0 0 180 320" preserveAspectRatio="none">
-                                                <path d="M 180,160 0,218 0,0 180,0 z" />
+                                                <path d="M 181,160 0,218 0,0 180,0 z" />
                                             </svg>
                                             <figcaption>
                                                 <div className="icon">

@@ -12,8 +12,8 @@
     grid-template-rows: repeat(8, 90px);
     grid-template-columns: repeat(8,90px);
     grid-gap: 3px;
-    background-color: #291a2b;
-    width: 760px;
+    background-color: #2d3b42;
+    width: 740px;
     height: 102%;
 } 
   
@@ -31,7 +31,7 @@
     align-items: center;
     display: flex;
     font-size: 84px;
-    background-color: #a6bac4;
+    background-color: #B3D9FF;
 } 
 
 
@@ -47,26 +47,26 @@
     align-items: center;
     display: flex;
     font-size: 84px;
-    background-color: #4d2233;
+    background-color: #00404D;
 } 
  
 .piece {
     cursor: pointer;
     width: 100%;
     height: 100%;
-  border: 1mm ridge transparent;
+    border: 1mm ridge transparent;
 }
 
 .piece:hover
 { 
   box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.2);
-  border: 1mm ridge #8f404c;
+  border: 1mm ridge #0095B3;
 } 
 
 .piece:active
 { 
   box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.5);
-  border: 2mm ridge #8f404c;
+  border: 2mm ridge #0095B3;
 } 
 
 .piece {
@@ -78,7 +78,6 @@
     margin-left: auto;
     margin-right: auto;
     width: 38px;
-
 }
 .reach {
     background-color: rgba(255,255,179);
@@ -89,8 +88,47 @@
 .reach:hover {
     background-color: rgba(255,255,179);
     box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.5);
-    border: 1mm ridge #8f404c;
+    border: 1mm ridge #fff;
     width: 100%;
     height: 100%;
     cursor: pointer;
 }
+
+.vischeck {
+  position: absolute;
+  color: red;
+  font-size: 25px;
+  margin: 10px;
+  right: 0;
+  bottom: 0;
+  font-family: 'Press Start 2P', cursive;
+}
+
+.hidde-check {
+  display: none;
+}
+
+.visEnd {
+  position: absolute;
+  color: #fff;
+  font-size: 45px;
+  margin: 10px;
+  right: 0;
+  left: 0;
+  font-family: 'Press Start 2P', cursive;
+
+}
+
+.hidde-end {
+    display: none;
+}
+
+
+@media screen and (max-width: 700px) {
+    .grid {
+      width: 540px;
+      height: 102%;
+    }
+
+}
+

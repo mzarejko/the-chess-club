@@ -45,8 +45,17 @@ class GameWebSocket {
     if (command === backendToFrontendCommands.UPDATE_POSITIONS){
       this.callbacks[command](data.white_pos, data.black_pos)
     }
-    if (command === backendToFrontendCommands.UPDATE_REACHABLE_SQUARES){
+    else if (command === backendToFrontendCommands.UPDATE_REACHABLE_SQUARES){
       this.callbacks[command](data.reachable_squares, data.attack_squares, data.oldPos, data.color, data.name)
+    }
+    else if (command === backendToFrontendCommands.END_GAME){
+      this.callbacks[command](data.winner)
+    }
+    else if (command === backendToFrontendCommands.CHECK){
+      this.callbacks[command]()
+    }
+    else if (command === backendToFrontendCommands.UNCHECK){
+      this.callbacks[command]()
     }
   }
   
@@ -63,7 +72,7 @@ class GameWebSocket {
     const data = {
       command: frontendToBackendCommands.FETCH_REACHABLE_SQUARES,
       gameId: gameId,
-      position: pos,
+      pos: pos,
       name: name,
       color: color
     }  
@@ -103,9 +112,12 @@ class GameWebSocket {
     }
   }
 
-  addCallbacks(PositionsCallback, SquareCallback) {
+  addCallbacks(PositionsCallback, SquareCallback, CheckCallback, EndCallback, unCheckCallback) {
     this.callbacks[backendToFrontendCommands.UPDATE_POSITIONS] = PositionsCallback;
     this.callbacks[backendToFrontendCommands.UPDATE_REACHABLE_SQUARES] = SquareCallback;
+    this.callbacks[backendToFrontendCommands.END_GAME] = EndCallback;
+    this.callbacks[backendToFrontendCommands.CHECK] = CheckCallback;
+    this.callbacks[backendToFrontendCommands.UNCHECK] = unCheckCallback;
   }
 
   // tell if socket is ready

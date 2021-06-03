@@ -4,6 +4,7 @@ import {joinGame} from '../../actions/game';
 import {listGames} from '../../actions/game';
 import InfoDisplayer from '../../components/InfoDisplayer/InfoDisplayer';
 import {createGame} from '../../actions/game';
+import Button from '../Buttons/Buttons';
  
 class GameList extends Component {
 
@@ -28,6 +29,7 @@ class GameList extends Component {
     componentDidMount(){
         this.findGames()
     }
+
 
     findGames = () => {
         listGames(this.state.author,
@@ -56,9 +58,13 @@ class GameList extends Component {
 
     render() {
         return (
-            <div>
+            <div className="gameList">
                 <div>
-                    <button onClick={this.create}>create game</button> 
+                    <Button buttonSize='medium'    
+                        buttonStyle='outline' 
+                        onClick={this.create}>
+                            create game
+                    </Button>
                 </div>
                 <input
                     type="text"
@@ -79,17 +85,25 @@ class GameList extends Component {
                     placeholder={"find winner ..."}
                     onChange={this.changeKeys} />
 
-                {this.state.games.map((item) => {
-                    return (
-                        <div onClick={() => {this.join(item.pk)}} key={item.pk} 
-                                            className="game-row">
-                            <p>{item.author}</p>
-                            <p>{item.opponent}</p>
-                            <p>{item.winner}</p>
-                            <p>{item.date}</p>
-                        </div>
-                    )
-                })}
+                <div className="menu_back">
+                    <div className='game-first'>
+                        <p>author</p>
+                        <p>opponent</p>
+                        <p>winner</p>
+                        <p>date</p>
+                    </div>
+                    {this.state.games.map((item) => {
+                        return (
+                            <div onClick={() => {this.join(item.pk)}} key={item.pk} 
+                                                className="game-row">
+                                <p>{item.author}</p>
+                                <p>{item.opponent}</p>
+                                <p>{item.winner}</p>
+                                <p>{item.date}</p>
+                            </div>
+                        )
+                    })}
+                </div>
                 <InfoDisplayer ref={this.infoDisplayerRef} />
             </div>
         )   

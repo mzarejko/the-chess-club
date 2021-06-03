@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './Navbar.css'
+import Button from '../Buttons/Buttons';
 
 
 /*
@@ -14,7 +15,11 @@ const Navbar = (Child, leftButtonFunc) =>{
             if (leftButtonFunc){
                 return (
                     <div className="logout">
-                        <button onClick={leftButtonFunc}>Logout</button>
+                        <Button buttonSize='medium'    
+                            buttonStyle='outline' 
+                            onClick={leftButtonFunc}>
+                                logout
+                        </Button>
                     </div>
                 )
             }
@@ -23,12 +28,10 @@ const Navbar = (Child, leftButtonFunc) =>{
         render() {
             return (
                 <div>
-                    <div>
-                        <div className="Navbar">
-                            <h1 className="logo-navbar">The chess club</h1>
-                        </div>
-                        {this.renderLeftButton()}
-                    </div>
+                     <div className="Navbar">
+                         <h1 className="logo-navbar">The chess club</h1>
+                         {this.renderLeftButton()}
+                     </div>
                     <Child />
                 </div>
             )   

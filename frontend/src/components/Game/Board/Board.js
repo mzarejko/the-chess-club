@@ -15,6 +15,12 @@ class Board extends Component {
                         )
                     })}
                 </div>
+                <div className={this.props.isCheck ? 'vischeck' : 'hidde-check'}>
+                    <p>CHECK</p>
+                </div>
+                <div className={this.props.isEnd ? 'visEnd' : 'hidde-end'}>
+                    <p>CHECK MATE</p>
+                </div>
             </div>    
         )
     }

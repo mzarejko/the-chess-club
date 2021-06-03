@@ -1,27 +1,47 @@
 .chat {
   display: flex;
   flex-direction: column;
-  border: solid;
+  border: solid #11140f;
   width: 400px;
   height: 500px;
   overflow: auto;
   margin: 10px;
-  background-color: #a6bac4;
+  background-color: #0e0f0d;
+}
+
+@font-face {
+  font-family: 'Pixel';
+  src: url('../fonts/pixelFJ8pt1__.TTF');
 }
 
 
 .message {
-  font-size: 10px;
   width: 80%;
   padding: 10px;
   margin: 10px;
   list-style-type: none;
-  background-color: #4d2233;
+  border: 1px solid #0095B3;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  background-color: #212121;
   color: #fff;
-  font-family: 'Press Start 2P', cursive;
+  font-family: 'Pixel';
+  font-size: 12px;
 }
 
 .message small {
   position: relative;
   left: 80%;
 }
+
+@media screen and (max-width: 700px) {
+    .chat {
+
+        margin: 5px;
+        width: 200px;
+        height: 300px;
+    }
+
+}
+

@@ -14,7 +14,9 @@ class Game extends Component {
     this.state = {
       numPos: 64,
       board: [],
-      cleanBoard: []
+      cleanBoard: [],
+      isCheck: false,
+      isEnd: false
     }
   }
 
@@ -24,7 +26,7 @@ class Game extends Component {
     gameSocket.connect(path)
     // get all old messages and set callbacks for websocket
     this.prepareConection(()=> {
-      gameSocket.addCallbacks(this.updatePos, this.updateReachable)
+      gameSocket.addCallbacks(this.updatePos, this.updateReachable, this.chack, this.endGame, this.unchack)
       gameSocket.fetchPositions(this.props.gameId)
     });
   }
@@ -109,6 +111,7 @@ class Game extends Component {
       });
     });
 
+  
 
     this.setState({
       cleanBoard: new_board,
@@ -116,6 +119,24 @@ class Game extends Component {
     },()=> console.log(this.state.board))
   }
 
+  chack = () => {
+    this.setState({
+      isCheck: true
+    }, console.log('check'))
+    
+  }
+
+  unchack = () => {
+    this.setState({
+      isCheck: false
+    }, console.log('uncheck'))
+  }
+
+  endGame = () => {
+    this.setState({
+      isEnd: true
+    })
+  }
 
   componentWillUnmount(){
     gameSocket.disconnect()
@@ -125,7 +146,10 @@ class Game extends Component {
 
   render() {
     return (
-      <Board positions={this.state.board} />
+      <div>
+        <Board positions={this.state.board} isCheck={this.state.isCheck}
+                                            isEnd={this.state.isEnd}/>
+      </div>
     )
   }
 }

@@ -1,0 +1,17 @@
+body {
+  background-color: #050708;
+}
+
+input {
+    margin: 20px;
+    background-color: #050708;
+    font-family: 'Pixel';
+    color: #fff;
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-bottom-style: groove;
+    border-bottom-color: #80D4FF;
+    caret-color : #80D4FF;
+}
+
