@@ -1,0 +1,14 @@
+build:
+    docker:
+        web: Dockerfile
+        celeryworker: Dockerfile
+        channelworker: Dockerfile
+run:
+    web: daphne base.asgi:application --port $PORT --bind 0.0.0.0 -v2
+    channelworker: python3 manage.py makemigrations --no-input && python3 manage.py migrate --no-input && python3 manage.py runworker
+    celeryworker: celery -A base worker -l INFO
+release:
+  image: channelworker
+  command:
+    - python manage.py collectstatic --noinput 
+

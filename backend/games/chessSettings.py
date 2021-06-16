@@ -5,20 +5,24 @@ class Color(int, Enum):
     BLACK = 2
 
 
+  
 class PieceMedia(str, Enum):
-    BLACK_BISHOP='http://127.0.0.1:8000/media/chess/black/bishop-black-16x16.png'
-    BLACK_KING='http://127.0.0.1:8000/media/chess/black/king-black-16x16.png'
-    BLACK_KNIGHT='http://127.0.0.1:8000/media/chess/black/knight-black-16x16.png'
-    BLACK_PAWN='http://127.0.0.1:8000/media/chess/black/pawn-black-16x16.png'
-    BLACK_QUEEN='http://127.0.0.1:8000/media/chess/black/queen-black-16x16.png'
-    BLACK_ROOK='http://127.0.0.1:8000/media/chess/black/rook-black-16x16.png'
     
-    WHITE_BISHOP='http://127.0.0.1:8000/media/chess/white/bishop-white-16x16.png'
-    WHITE_KING='http://127.0.0.1:8000/media/chess/white/king-white-16x16.png'
-    WHITE_KNIGHT='http://127.0.0.1:8000/media/chess/white/knight-white-16x16.png'
-    WHITE_PAWN='http://127.0.0.1:8000/media/chess/white/pawn-white-16x16.png'
-    WHITE_QUEEN='http://127.0.0.1:8000/media/chess/white/queen-white-16x16.png'
-    WHITE_ROOK='http://127.0.0.1:8000/media/chess/white/rook-white-16x16.png'
+    #BASE = 'https://the-chess-club-backend.herokuapp.com'
+    BASE = 'http://127.0.0.1:8000'
+    BLACK_BISHOP=f'{BASE}/static/media/bishop-black-16x16.png'
+    BLACK_KING=f'{BASE}/static/media/king-black-16x16.png'
+    BLACK_KNIGHT=f'{BASE}/static/media/knight-black-16x16.png'
+    BLACK_PAWN=f'{BASE}/static/media/pawn-black-16x16.png'
+    BLACK_QUEEN=f'{BASE}/static/media/queen-black-16x16.png'
+    BLACK_ROOK=f'{BASE}/static/media/rook-black-16x16.png'
+    
+    WHITE_BISHOP=f'{BASE}/static/media/bishop-white-16x16.png'
+    WHITE_KING=f'{BASE}/static/media/king-white-16x16.png'
+    WHITE_KNIGHT=f'{BASE}/static/media/knight-white-16x16.png'
+    WHITE_PAWN=f'{BASE}/static/media/pawn-white-16x16.png'
+    WHITE_QUEEN=f'{BASE}/static/media/queen-white-16x16.png'
+    WHITE_ROOK=f'{BASE}/static/media/rook-white-16x16.png'
 
 class PiecesNameKeys(str, Enum):
     PAWN = 'pawns'
@@ -29,7 +33,7 @@ class PiecesNameKeys(str, Enum):
     KING = 'king'
 
 # default position of chess on board 8x8 = 64 positions
-class Positions(list, Enum):
+class Positions:
     PAWNS_BLACK_POS = [x for x in range(8,16)]
     KING_BLACK_POS = [3]
     QUEEN_BLACK_POS = [4]

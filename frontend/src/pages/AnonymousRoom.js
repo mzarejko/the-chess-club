@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import GameList from '../components/GameList/GameList';
 
 
 class AnonymousGame extends Component {
@@ -7,7 +6,7 @@ class AnonymousGame extends Component {
     render(){    
         return (
              <div>
-                 <GameList />
+                <p>Here in future will by anonymous game, right now it is in development</p>
              </div>
         );
     }

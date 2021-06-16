@@ -88,3 +88,4 @@ class JoinToGame(APIView):
             return Response({'success': 'You have been attached to the chat'}, status=status.HTTP_200_OK)
         return Response({'success': 'You have been attached to the game as opponent'}, status=status.HTTP_200_OK)
 
+

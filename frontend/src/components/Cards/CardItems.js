@@ -4,7 +4,7 @@ import {urls} from '../../utils/paths/urls';
 
 export const CardItems= [
     {
-        path: urls.GAME,
+        path: urls.ANONYMOUS_GAME,
         icon: <GiIcons.GiCrossedSwords />,
         image: 'https://media.giphy.com/media/ViHG6N1Zhq1A7tDwbF/giphy.gif',
         description: 'play',

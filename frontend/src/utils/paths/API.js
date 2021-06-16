@@ -1,25 +1,33 @@
 
+// set this url ony if app is in production
+// var HOST_BASE ="https://the-chess-club-backend.herokuapp.com/" 
+// var HOST_WS = 'ws://the-chess-club-backend.herokuapp.com/'
+
+// set this if development
+var HOST_BASE ="http://127.0.0.1:8000/" 
+var HOST_WS = 'ws://127.0.0.1:8000/'
+
 export const backend_url = {
-  HOST : "http://127.0.0.1:8000/",
-  REGISTER : "http://127.0.0.1:8000/accounts/register/", 
-  LOGIN : "http://127.0.0.1:8000/accounts/login/", 
-  REFRESH_TOKEN : 'http://127.0.0.1:8000/accounts/refresh-token/',
-  USERS : 'http://127.0.0.1:8000/accounts/users/',
-  LOGOUT : 'http://127.0.0.1:8000/accounts/logout/',
-  SEND_RESET_LINK_PASSWORD : 'http://127.0.0.1:8000/accounts/reset-password-email/',
-  RESET_PASSWORD : 'http://127.0.0.1:8000/accounts/reset-password-complete/',
-  SOCKET : "ws://127.0.0.1:8000",
-  CREATE_GAME : 'http://127.0.0.1:8000/games/new/',
-  LIST_GAMES : 'http://127.0.0.1:8000/games/',
+  HOST : `${HOST_BASE}`,
+  REGISTER : `${HOST_BASE}accounts/register/`, 
+  LOGIN : `${HOST_BASE}accounts/login/`, 
+  REFRESH_TOKEN : `${HOST_BASE}accounts/refresh-token/`,
+  USERS : `${HOST_BASE}accounts/users/`,
+  LOGOUT : `${HOST_BASE}accounts/logout/`,
+  SEND_RESET_LINK_PASSWORD : `${HOST_BASE}accounts/reset-password-email/`,
+  RESET_PASSWORD : `${HOST_BASE}accounts/reset-password-complete/`,
+  SOCKET : `${HOST_WS}`,
+  CREATE_GAME : `${HOST_BASE}games/new/`,
+  LIST_GAMES : `${HOST_BASE}games/`,
 }
 
 
 export function getChatEndpoint(id, token){
-  return `ws://127.0.0.1:8000/chat/${id}/?token=${token}`
+  return `${HOST_WS}chat/${id}/?token=${token}`
 }
 
 export function getGameEndpoint(id, token){
-  return `ws://127.0.0.1:8000/game/${id}/?token=${token}`
+  return `${HOST_WS}game/${id}/?token=${token}`
 }
 
 export function getJoinGameEndpoint(id){

@@ -18,6 +18,7 @@ class WhiteChessBoard(models.Model):
     rooks = ArrayField(models.PositiveIntegerField(), max_length=2, default=ArrayFunc.get_white_rooks)
     king = ArrayField(models.PositiveIntegerField(),
                             max_length=1, default=ArrayFunc.get_white_king)
+    
         
 class BlackChessBoard(models.Model):
     

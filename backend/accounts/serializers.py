@@ -33,8 +33,9 @@ class RegisterSerializer(serializers.ModelSerializer):
         password1 = data['password1'] 
         password2 = data['password2'] 
 
+
         if password1 != password2:
-            return ValidationError({'error': "passwords not match"})
+            raise ValidationError({'error': "passwords not match"})
 
         # check if user already exist but is not verfied yet
         if User.objects.filter(username=data['username'], email=data['email'], 

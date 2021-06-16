@@ -1,4 +1,5 @@
 from enum import Enum
+from .chessSettings import Positions 
 
 class PieceMovesAttack(list, Enum):
     PAWNS_WHITE_SECOND = [[[-1,0]]]
@@ -9,24 +10,24 @@ class PieceMovesAttack(list, Enum):
     PAWNS_BLACK_FIRST = [[[1, 0]], [[2,0]]]
     PAWNS_BLACK_ATTACK = [[[1,-1]], [[1,1]]]
 
-    BISHOP_MOVES_ATTACKS = [[[x,x] for x in range(1, 7)],
-                            [[-x,-x] for x in range(1, 7)],
-                            [[x,-x] for x in range(1, 7)],
-                            [[-x,x] for x in range(1, 7)]]
+    BISHOP_MOVES_ATTACKS = [[[x,x] for x in range(1, 8)],
+                            [[-x,-x] for x in range(1, 8)],
+                            [[x,-x] for x in range(1, 8)],
+                            [[-x,x] for x in range(1, 8)]]
 
-    ROOK_MOVES_ATTACKS = [[[0,x] for x in range(1,7)],
-                          [[x,0] for x in range(1,7)],
-                          [[0,-x] for x in range(1,7)],
-                          [[-x,0] for x in range(1,7)]]
+    ROOK_MOVES_ATTACKS = [[[0,x] for x in range(1,8)],
+                          [[x,0] for x in range(1,8)],
+                          [[0,-x] for x in range(1,8)],
+                          [[-x,0] for x in range(1,8)]]
     
-    QUEEN_MOVES_ATTACKS = [[[0,x] for x in range(1,7)],
-                           [[x,0] for x in range(1,7)],
-                           [[0,-x] for x in range(1,7)],
-                           [[-x,0] for x in range(1,7)],
-                           [[x,x] for x in range(1,7)],
-                           [[-x,-x] for x in range(1,7)],
-                           [[x,-x] for x in range(1,7)],
-                           [[-x,x] for x in range(1,7)]]
+    QUEEN_MOVES_ATTACKS = [[[0,x] for x in range(1,8)],
+                           [[x,0] for x in range(1,8)],
+                           [[0,-x] for x in range(1,8)],
+                           [[-x,0] for x in range(1,8)],
+                           [[x,x] for x in range(1,8)],
+                           [[-x,-x] for x in range(1,8)],
+                           [[x,-x] for x in range(1,8)],
+                           [[-x,x] for x in range(1,8)]]
     
     KNIGHT_MOVES_ATTACKS = [[[-2,-1]], [[-2,1]], [[2,-1]], [[2,1]], [[1, 2]], [[-1, 2]], [[-1,-2]], [[1,-2]]]
     KING_MOVES_ATTACKS = [[[0,1]], [[1,0]], [[1,1]], [[-1,0]], [[0,-1]], [[1,-1]], [[-1,1]], [[-1,-1]]]
@@ -64,8 +65,8 @@ def update_moves(positions, offset, my_piece, enemies, moves, attack):
                                 pos[1]+dimension_offset[1]]
         
         # check if move will not go out of array scope
-        if output_pos_dimension[0]>7 or output_pos_dimension[1]>7 or\
-            output_pos_dimension[0]< 0 or output_pos_dimension[1]<0:
+        if output_pos_dimension[0]>8 or output_pos_dimension[1]>7 or\
+            output_pos_dimension[0]<0 or output_pos_dimension[1]<0:
                 break
 
         if check_obstacles(numeric_pos+offset, enemies):
@@ -97,35 +98,35 @@ def check_if_everything_in_range(moves):
 class PieceMoves:
 
     @staticmethod
-    def get_white_pawn_moves(offset, my_piece, enemies, first=False):
+    def get_white_pawn_moves(offset, my_piece, enemies):
         moves = []
         attack = []
 
         for poses in PieceMovesAttack.PAWNS_WHITE_ATTACK:
             _, attack = update_moves(poses, offset, my_piece, enemies, [], attack)
 
-        if first:
+        if offset in Positions.PAWNS_WHITE_POS:
             for poses in PieceMovesAttack.PAWNS_WHITE_FIRST:
-                moves, attack = update_moves(poses, offset, my_piece, enemies, moves, attack)
+                moves, _ = update_moves(poses, offset, my_piece, enemies, moves, [])
         else:
             for poses in PieceMovesAttack.PAWNS_WHITE_SECOND:
-                moves, attack = update_moves(poses, offset, my_piece, enemies, moves, attack)
+                moves, _ = update_moves(poses, offset, my_piece, enemies, moves, [])
 
         return moves, attack 
 
     @staticmethod
-    def get_black_pawn_moves(offset, my_piece, enemies, first=False):
+    def get_black_pawn_moves(offset, my_piece, enemies):
         moves = []
         attack = []
         for poses in PieceMovesAttack.PAWNS_BLACK_ATTACK:
             _, attack = update_moves(poses, offset, my_piece, enemies, [], attack)
         
-        if first:
+        if offset in Positions.PAWNS_BLACK_POS:
             for poses in PieceMovesAttack.PAWNS_BLACK_FIRST:
-                moves, attack = update_moves(poses, offset, my_piece, enemies, moves, attack)
+                moves, _ = update_moves(poses, offset, my_piece, enemies, moves, [])
         else:
             for poses in PieceMovesAttack.PAWNS_BLACK_SECOND:
-                moves, attack = update_moves(poses, offset, my_piece, enemies, moves, attack)
+                moves, _ = update_moves(poses, offset, my_piece, enemies, moves, [])
 
         return moves, attack
         

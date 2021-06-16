@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY= 'dfefghjuwiwh345892hbf81Idio5lp@&YBKigw'
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', '172.16.238.11']
+ALLOWED_HOSTS = [ '127.0.0.1', '172.16.238.11']
 
 # page to redirect from backend
 REDIRECT_PAGE = 'http://0.0.0.0:3000/reset-password/'
@@ -53,15 +53,10 @@ EMAIL_USE_TLS=True
 EMAIL_HOST='smtp.gmail.com'
 EMAIL_PORT=587
 
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
    os.path.join(BASE_DIR, "static"),
-]
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-STATIC_URL = '/static/'
-STATIC_MEDIA = '/media/'
+   ]
 
 # ASGI is for djnago channel
 ASGI_APPLICATION = 'base.routing.application'

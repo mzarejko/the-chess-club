@@ -5,6 +5,7 @@ import Register from './pages/accounts/Register';
 import Menu from './pages/Menu';
 import Home from './pages/Home';
 import GameRoom from './pages/GameRoom';
+import AnonymousRoom from './pages/AnonymousRoom';
 import {urls} from './utils/paths/urls';
 import './App.css';
 import {history} from './utils/history';
@@ -21,7 +22,9 @@ class App extends Component {
         <Router history={history}>
           <Switch>
             <PrivateRoute path={urls.HOME} component={Home} />
-            <Route path={urls.GAME} component={GameRoom} />
+            <PrivateRoute path={urls.GAME} component={GameRoom} />
+            <Route path={urls.ANONYMOUS_GAME} component={AnonymousRoom} />
+            
 
             <Route exact path={urls.LOGIN} component={Login} />
             <Route exact path={urls.REGISTER} component={Register} />

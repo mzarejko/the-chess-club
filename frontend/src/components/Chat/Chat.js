@@ -71,6 +71,7 @@ class Chat extends Component {
     };
     chatSocket.sendChatMessage(object)
     this.setState({typedMessage: ""})
+    console.log('dua')
   }
 
   setMessage = messages => {
@@ -96,7 +97,7 @@ class Chat extends Component {
         <form onSubmit={this.sendMessage}>
           <input
             onChange={this.updateMessageInput}
-            value={this.state.newMessage}
+            value={this.state.typedMessage}
             type="text"
             placeholder="write your message..."
             />

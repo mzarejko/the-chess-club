@@ -164,10 +164,10 @@ class GameConsumer(WebsocketConsumer):
 
 
     def end_game(self, data, winner):
-        Game.mark_complete(data['gameId'], winner.id)
+        Game.mark_complete(data['gameId'], winner)
         content = {
             'command': backend_frontend_commands.END_GAME,
-            'winner' : winner
+            'winner' : winner.username
         }
         self.send_to_game(content)
     
