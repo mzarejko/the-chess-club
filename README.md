@@ -9,6 +9,7 @@
 2. [Technologies](#Technologies)
 3. [Bould](#Build)
 4. [Status](#Status)
+5. [Current page layout](#layout)
 
 
 ## General info <a name="info"></a>
@@ -139,4 +140,14 @@ To start frontend you have to install [node and npm](https://docs.npmjs.com/down
   - [x]   advanced chat 
   - [x]   chess game
   - [ ]   user profile
-r
+
+
+
+## Current page layout  <a name="layout"></a>
+### menu/
+![alt text](../doc_image/menu.png?raw=true)
+ ### home/
+![alt text](../doc_image/home.png?raw=true)
+ ### game/
+![alt text](../doc_image/game.png?raw=true)
+
