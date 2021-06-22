@@ -145,9 +145,9 @@ To start frontend you have to install [node and npm](https://docs.npmjs.com/down
 
 ## Current page layout  <a name="layout"></a>
 ### menu/
-![alt text](../doc_image/menu.png?raw=true)
+![alt text](./doc_image/menu.png?raw=true)
  ### home/
-![alt text](../doc_image/home.png?raw=true)
+![alt text](./doc_image/home.png?raw=true)
  ### game/
-![alt text](../doc_image/game.png?raw=true)
+![alt text](./doc_image/game.png?raw=true)
 
